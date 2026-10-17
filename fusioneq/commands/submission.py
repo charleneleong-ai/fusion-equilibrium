@@ -9,6 +9,7 @@ from typing import Annotated, Any, Literal
 
 import numpy as np
 import numpy.typing as npt
+import torch
 import typer
 from loguru import logger
 
@@ -84,14 +85,15 @@ def fit_trees(
     host: Annotated[str, typer.Option(help="result tag of the network whose inputs and coefficients the trees use")],
     out: Annotated[str, typer.Option(help="file name under results/, e.g. xgb_top32.json")],
     k: int = 32,
+    stride: int = 4,
     cache_root: Path = CACHE_ROOT,
     holdout: int = 200,
     score_shots: int = 40,
 ) -> None:
-    """XGBoost on `host`'s leading k coefficients: every 4th training frame, early stopping on the never-scored
-    validation shots."""
+    """XGBoost on `host`'s leading k coefficients: every stride-th training frame (the blends' `_full` forests use
+    stride 1), early stopping on the never-scored validation shots."""
     ev = HeldOut.load(cache_root, holdout, score_shots)
-    train, val = np.nonzero(ev.train)[0][::4], np.nonzero(ev.validation)[0]
+    train, val = np.nonzero(ev.train)[0][::stride], np.nonzero(ev.validation)[0]
     CoefTrees.fit(NeuralPredictor.load(RESULTS / host), ev.fr, train, val, RESULTS / out, k)
 
 
@@ -164,6 +166,8 @@ class Submission:
         return psi, scal
 
     def build(self, configs: list[str]) -> None:
+        # Full float32 on the GPU: TF32 (cuDNN's default) cost score on the magnetic axis, as bf16 did
+        torch.backends.cuda.matmul.allow_tf32 = torch.backends.cudnn.allow_tf32 = False
         self.out_dir.mkdir(parents=True, exist_ok=True)
         for config in configs:
             fr = Frames.load(self.cache_root / config)

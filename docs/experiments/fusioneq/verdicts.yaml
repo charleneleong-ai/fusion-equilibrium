@@ -366,3 +366,11 @@
     shape scalar up except volume/li flat) and D_LCFS (0.01080 -> 0.01001). float16 rounding was costing more than any model
     change since 9 Oct. Axis jitter 6.74/8.28 -> 5.62/7.01 mm. Screen had +0.000187.'
   pr: 26
+- sweep: final_pick_psi32
+  label: Final pick v21_16_grids3_fno2 with float32 psi storage (the Final configuration)
+  verdict: PROMOTE
+  baseline: d5a34274 official DIII-D S 0.994192 (same blend, float16 psi)
+  gate: one Development submission changing only the stored dtype; jitter R < 7.3 mm, Z < 9.0 mm
+  result: 'Official 0be92e18: DIII-D S 0.994565 (+0.000373), new best; float32 storage stacks with the blend (+0.000386 on
+    54a70e7c). Consistency 0.98134, D_LCFS 0.00972. Jitter 5.82/7.51 mm.'
+  pr: 26
