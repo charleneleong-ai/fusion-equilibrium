@@ -15,7 +15,7 @@ from fusioneq.model import NetConfig, NeuralPredictor
 from fusioneq.prepare import prepare as prepare_config
 from fusioneq.prepare import prepare_thomson_hr
 from fusioneq.score import summary_line
-from fusioneq.settings import CACHE_ROOT, DATA_ROOT, RESULTS
+from fusioneq.settings import CACHE_ROOT, DATA_ROOT, RESULTS, load_config
 from fusioneq.targets import r2_psi
 from fusioneq.timing import Phases, gpu_metrics
 from fusioneq.tracking import Run
@@ -89,29 +89,35 @@ def train(
     window: int = 64,
     ramp_weight: float = 1.0,
     normalize: bool = False,
+    config: Path | None = None,
 ) -> None:
-    """Fit the neural predictor on DIII-D train frames, score it on held-out shots, save it under results/<tag>."""
+    """Fit the neural predictor on DIII-D train frames, score it on held-out shots, save it under results/<tag>.
+    `--config` (a configs/members/ recipe) replaces every network flag."""
     t0, phases = time.time(), Phases()
     ev = HeldOut.load(cache_root, holdout, score_shots, spare_holdout)
-    cfg = NetConfig(
-        n_components=n_components,
-        hidden=hidden,
-        layers=layers,
-        epochs=epochs,
-        batch=batch,
-        lr=lr,
-        context=context,
-        use_vacuum=use_vacuum,
-        amp=amp,
-        coef_loss=coef_loss,
-        region_weight=region_weight,
-        seed=seed,
-        thomson_hr=thomson_hr,
-        history=history,
-        temporal_layers=temporal_layers,
-        window=window,
-        ramp_weight=ramp_weight,
-        normalize=normalize,
+    cfg = (
+        load_config(NetConfig, config)
+        if config
+        else NetConfig(
+            n_components=n_components,
+            hidden=hidden,
+            layers=layers,
+            epochs=epochs,
+            batch=batch,
+            lr=lr,
+            context=context,
+            use_vacuum=use_vacuum,
+            amp=amp,
+            coef_loss=coef_loss,
+            region_weight=region_weight,
+            seed=seed,
+            thomson_hr=thomson_hr,
+            history=history,
+            temporal_layers=temporal_layers,
+            window=window,
+            ramp_weight=ramp_weight,
+            normalize=normalize,
+        )
     )
     kind = "temporal" if temporal_layers else "mlp"
     run = Run(tag, {"model": kind, **cfg.__dict__, "holdout": holdout})

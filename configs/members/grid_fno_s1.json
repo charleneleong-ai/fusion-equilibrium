@@ -1,0 +1,18 @@
+{
+ "kind": "grid",
+ "arch": "fno",
+ "channels": 48,
+ "modes": 16,
+ "layers": 4,
+ "context": 4,
+ "film_hidden": 512,
+ "env_weight": 4.0,
+ "gs_weight": 0.0,
+ "lr": 0.001,
+ "weight_decay": 1e-05,
+ "epochs": 20,
+ "batch": 256,
+ "stride": 1,
+ "amp": true,
+ "seed": 1
+}

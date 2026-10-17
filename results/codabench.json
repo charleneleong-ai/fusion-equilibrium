@@ -1208,5 +1208,39 @@
    "dlcfs": 0.225602,
    "consistency": 0.048324
   }
+ },
+ {
+  "submitted": "2026-10-17 (pointer_20261017T0500Z_0be92e18.zip)",
+  "model": "Final pick configs/blends/v21_16_grids3_fno2.yaml (d5a34274's blend) with psi stored as float32 (build --psi-dtype float32; CPU float32 build); MAST as 688a773d",
+  "commit": "0be92e184984ed2741be011fa0fb7156236198b2",
+  "notes": "New DIII-D best: S 0.994192 -> 0.994565 (+0.000373 from storage dtype; +0.000386 on 54a70e7c's blend, so the two levers stack). Consistency 0.979839 -> 0.981335, D_LCFS 0.010454 -> 0.009719. The exact Final configuration (16.0-18.8 idle A100-h). MAST identical; G 0.622828. PROMOTE.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261017T0500Z_0be92e18.zip",
+  "scores": {
+   "d3d_S": 0.994565,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.009719,
+   "d3d_consistency": 0.981335,
+   "mast_S": 0.619443,
+   "g_ratio": 0.622828
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.982257,
+   "Z_axis": 0.991151,
+   "kappa": 0.970162,
+   "tri_top": 0.992676,
+   "tri_bot": 0.991643,
+   "volume": 0.987073,
+   "li": 0.954379
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324
+  }
  }
 ]

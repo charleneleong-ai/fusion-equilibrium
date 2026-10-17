@@ -29,8 +29,8 @@ class RebuildBudget:
 
     @classmethod
     def of(cls, spec: BlendSpec) -> RebuildBudget:
-        forests = sum(t is not None for t in (spec.trees, spec.shape_trees))
-        return cls(len(set(spec.base) | set(spec.shape)), forests, tuple(spec.grid.models) if spec.grid else ())
+        networks, forests, grids = spec.members()
+        return cls(len(networks), len(forests), tuple(grids))
 
     def hours(self) -> Hours:
         if unknown := [g for g in self.grids if g not in GRID_HOURS]:

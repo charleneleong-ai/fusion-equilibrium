@@ -10,7 +10,7 @@ from loguru import logger
 
 from fusioneq.evaluation import HeldOut
 from fusioneq.grid import GridConfig, GridPredictor
-from fusioneq.settings import CACHE_ROOT, RESULTS
+from fusioneq.settings import CACHE_ROOT, RESULTS, load_config
 from fusioneq.tracking import Run
 from fusioneq.viz import pick_frames, shape_triptych
 
@@ -32,24 +32,29 @@ def train_grid(
     cache_root: Path = CACHE_ROOT,
     holdout: int = 200,
     score_shots: int = 40,
+    config: Path | None = None,
 ) -> None:
     """Fit the grid shape model (--arch unet, or fno: --channels is then its width, with --modes and --layers) on
     every stride-th training frame, keeping the epoch with the lowest envelope loss on the never-scored validation
-    shots; save as results/<tag>."""
+    shots; save as results/<tag>. `--config` (a configs/members/ recipe) replaces every model flag."""
     ev = HeldOut.load(cache_root, holdout, score_shots)
-    cfg = GridConfig(
-        arch=arch,
-        channels=channels,
-        modes=modes,
-        layers=layers,
-        context=context,
-        epochs=epochs,
-        batch=batch,
-        stride=stride,
-        lr=lr,
-        env_weight=env_weight,
-        gs_weight=gs_weight,
-        seed=seed,
+    cfg = (
+        load_config(GridConfig, config)
+        if config
+        else GridConfig(
+            arch=arch,
+            channels=channels,
+            modes=modes,
+            layers=layers,
+            context=context,
+            epochs=epochs,
+            batch=batch,
+            stride=stride,
+            lr=lr,
+            env_weight=env_weight,
+            gs_weight=gs_weight,
+            seed=seed,
+        )
     )
     run = Run(tag, {"model": "grid", **asdict(cfg), "holdout": holdout})
     m = GridPredictor(cfg).fit(ev.fr, ev.train, ev.validation, run, checkpoint=RESULTS / tag)

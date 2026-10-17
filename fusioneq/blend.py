@@ -87,6 +87,8 @@ class TreeSpec:
     host: str
     model: str
     weight: float
+    k: int = 32  # leading coefficients fitted
+    stride: int = 4  # every stride-th training frame (fit-trees); the `_full` forests use 1
 
 
 @dataclass(frozen=True)
@@ -109,6 +111,11 @@ class BlendSpec:
         raw = yaml.safe_load(path.read_text())
         parts = {"trees": TreeSpec, "shape_trees": TreeSpec, "grid": GridSpec}
         return cls(**{**raw, **{k: part(**raw[k]) for k, part in parts.items() if raw.get(k)}})
+
+    def members(self) -> tuple[list[str], list[TreeSpec], list[str]]:
+        """What a rebuild trains: the networks (base and shape, once each, in order), the forests and the grids."""
+        networks = list(dict.fromkeys([*self.base, *self.shape]))
+        return networks, [t for t in (self.trees, self.shape_trees) if t], self.grid.models if self.grid else []
 
     def save(self, path: Path) -> None:
         path.mkdir(parents=True, exist_ok=True)
