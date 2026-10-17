@@ -1,0 +1,12 @@
+# v18: six more normalized-target seeds. In the hybrid blend, six members (v16 + v17) beat three on both held-out sets
+# (validation +0.00012, scoring +0.00012-0.00017) and moved the best weight from 0.35 to 0.5, so the family has not
+# saturated yet; twelve members test whether it keeps paying.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize]
+iters:
+  - {description: "normalized target, seed 6", overrides: [--seed, 6]}
+  - {description: "normalized target, seed 7", overrides: [--seed, 7]}
+  - {description: "normalized target, seed 8", overrides: [--seed, 8]}
+  - {description: "normalized target, seed 9", overrides: [--seed, 9]}
+  - {description: "normalized target, seed 10", overrides: [--seed, 10]}
+  - {description: "normalized target, seed 11", overrides: [--seed, 11]}

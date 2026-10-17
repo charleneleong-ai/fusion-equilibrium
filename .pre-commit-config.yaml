@@ -1,0 +1,14 @@
+# Scoped to this directory: the git root is the workshop-papers monorepo. vendor/ is the organizers' code, untouched.
+files: ^competitions/fusion-equilibrium/
+exclude: ^competitions/fusion-equilibrium/vendor/
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+      # Complexity gate only, never churns style: C901 max-complexity=10, PLR0915 max-statements=50.
+      - id: ruff
+        name: ruff complexity gate
+        args: [--select, "C901,PLR0915", --no-fix]

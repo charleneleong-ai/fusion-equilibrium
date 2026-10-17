@@ -1,0 +1,18 @@
+# v3: bf16 always, small batches, and spend the saved time on epochs.
+# v2 evidence (40 held-out shots): batch 8192 lr 2e-3 fp32 collapsed to S=0.684 (14 min fit, 97% util);
+# the same with bf16 reached 0.915 in 3 min. Big batches cut optimizer steps 4x and lost badly against
+# v1's batch-2048 best (0.9794, context 4, 2048x6, PCA 192, 25 ep). So: keep batch 2048-4096, keep
+# lr ~1e-3, turn on bf16, and push epochs and capacity.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --n-components, 192, --amp]
+iters:
+  - description: "v1 best (context 4, 2048x6, batch 2048, 25 ep) under bf16: speed/accuracy check"
+    overrides: [--context, 4, --hidden, 2048, --layers, 6, --batch, 2048, --lr, 1e-3, --epochs, 25]
+  - description: "same, 60 epochs"
+    overrides: [--context, 4, --hidden, 2048, --layers, 6, --batch, 2048, --lr, 1e-3, --epochs, 60]
+  - description: "batch 4096, lr 1.4e-3, 60 epochs"
+    overrides: [--context, 4, --hidden, 2048, --layers, 6, --batch, 4096, --lr, 1.4e-3, --epochs, 60]
+  - description: "deeper 2048x10, batch 2048, 60 epochs"
+    overrides: [--context, 4, --hidden, 2048, --layers, 10, --batch, 2048, --lr, 1e-3, --epochs, 60]
+  - description: "PCA 256, 2048x6, batch 2048, 80 epochs"
+    overrides: [--context, 4, --hidden, 2048, --layers, 6, --batch, 2048, --lr, 1e-3, --epochs, 80, --n-components, 256]

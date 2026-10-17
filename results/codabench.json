@@ -1,0 +1,1212 @@
+[
+ {
+  "submitted": "2026-09-29",
+  "model": "v5_loss_mix_i03 (DIII-D) + MAST vacuum baseline",
+  "rank": 30,
+  "entries": "~50",
+  "commit": "15903ed1e0bd24f1627ffa65b0e5a856ee45a865",
+  "scores": {
+   "d3d_S": 0.990496,
+   "d3d_r2_psi": 0.999586,
+   "d3d_r2_qb": 0.99524,
+   "d3d_dlcfs": 0.013063,
+   "d3d_consistency": 0.963719,
+   "mast_S": 0.0,
+   "g_ratio": 0.0
+  },
+  "d3d_cons_each": {
+   "R_axis": 0.964833,
+   "Z_axis": 0.962348,
+   "kappa": 0.948434,
+   "tri_top": 0.987364,
+   "tri_bot": 0.98331,
+   "volume": 0.9638,
+   "li": 0.935946
+  },
+  "notes": "Local held-out S 0.9915 vs official 0.9905. MAST R2psi -1723: vacuum flux 24x too large (P-coil ampere-turns over-counted per conductor element); no closed surfaces so all MAST derivations failed.",
+  "pointer": "pointer_20260929_15903ed1.zip"
+ },
+ {
+  "submitted": "2026-09-29 (2nd)",
+  "model": "v5_loss_mix_i03 (DIII-D) + MAST calibrated physics flux",
+  "rank": 30,
+  "entries": "~50",
+  "commit": "737ce338452c2c5913816e1d1184e0e50f7584cc",
+  "pointer": "pointer_20260929T0453Z_737ce338.zip",
+  "scores": {
+   "d3d_S": 0.990496,
+   "d3d_r2_psi": 0.999586,
+   "d3d_r2_qb": 0.99524,
+   "d3d_dlcfs": 0.013063,
+   "d3d_consistency": 0.963719,
+   "mast_S": 0.557707,
+   "g_ratio": 0.563058
+  },
+  "notes": "MAST calibrated physics flux: R2psi 0.873 (sign-normalized), 1-D_LCFS 0.755, consistency 0.009, q95/betaN from DIII-D means (R2 < 0, clipped). G_ratio 0 -> 0.563. DIII-D unchanged. Still rank 30.",
+  "d3d_cons_each": {
+   "R_axis": 0.964833,
+   "Z_axis": 0.962348,
+   "kappa": 0.948434,
+   "tri_top": 0.987364,
+   "tri_bot": 0.98331,
+   "volume": 0.9638,
+   "li": 0.935946
+  },
+  "mast": {
+   "r2_psi": 0.873347,
+   "r2_psi_as_submitted": -5.1934,
+   "flux_sign": -1,
+   "r2_qb": -0.259401,
+   "r2_q95": -0.469339,
+   "r2_betaN": -0.049463,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112,
+   "lcfs_fail": 2.9e-05,
+   "r2_psi_per_shot_mean": 0.863958,
+   "cons_each": {
+    "R_axis": 0.063783,
+    "Z_axis": -0.100667,
+    "kappa": -1.007781,
+    "tri_top": -0.113307,
+    "tri_bot": -1.422919,
+    "volume": -0.071594,
+    "li": -0.546817
+   }
+  }
+ },
+ {
+  "submitted": "2026-09-29 (3rd)",
+  "model": "v5_loss_mix_i03 (DIII-D) + MAST physics flux + physics q95/betaN",
+  "rank": null,
+  "entries": "~50",
+  "commit": "a404cfe9d1d69f2aa43bbb64abd82b06e40469c7",
+  "pointer": "pointer_20260929T0521Z_a404cfe9.zip",
+  "scores": null,
+  "notes": "No separate score reported; its MAST file (physics q95/betaN) is identical to the 4th entry's, so the 4th entry's MAST numbers cover it. Same psi as the 2nd entry; MAST q95/betaN from the TF field, Ip, predicted boundary and Thomson pressure."
+ },
+ {
+  "submitted": "2026-09-29 (4th)",
+  "model": "v6_ens3_seeds 3-seed ensemble (DIII-D) + MAST physics flux + physics q95/betaN",
+  "rank": 29,
+  "entries": "~50",
+  "commit": "d992d040e0240ec72ee689683d26464c42895ff6",
+  "pointer": "pointer_20260929T0652Z_d992d040.zip",
+  "scores": {
+   "d3d_S": 0.991639,
+   "d3d_r2_psi": 0.99973,
+   "d3d_r2_qb": 0.995707,
+   "d3d_dlcfs": 0.01234,
+   "d3d_consistency": 0.968326,
+   "mast_S": 0.575159,
+   "g_ratio": 0.580008
+  },
+  "notes": "3-seed ensemble: official DIII-D S 0.99164 (local 0.99220; gap 0.0006) vs 0.99050 for the v5 single model. MAST physics q95/betaN transfer weakly (R2 0.149 / 0.084) but lift MAST S 0.558 -> 0.575, G_ratio 0.563 -> 0.580.",
+  "d3d_cons_each": {
+   "R_axis": 0.969982,
+   "Z_axis": 0.969555,
+   "kappa": 0.953349,
+   "tri_top": 0.988888,
+   "tri_bot": 0.987202,
+   "volume": 0.969361,
+   "li": 0.939943
+  },
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.116351,
+   "r2_q95": 0.149184,
+   "r2_betaN": 0.083517,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112
+  }
+ },
+ {
+  "submitted": "held (candidate)",
+  "model": "v6_ensemble_region_i05 5-model ensemble (DIII-D) + MAST physics flux + physics q95/betaN",
+  "rank": null,
+  "entries": "~50",
+  "commit": "4eed27d3c160f33cc2978fa98ba46ac034ed477c",
+  "pointer": "pointer_20260929T0834Z_4eed27d3.zip",
+  "scores": null,
+  "notes": "Built and pushed, NOT submitted (2026-09-29 slots used): candidate for 2026-09-30. Local held-out S 0.99258 vs 0.99220 for the submitted 3-seed ensemble (official 0.99164). Members: v5_loss_mix_i03 + v6 seeds 1, 2 + both region-loss runs. MAST file unchanged. Compare with the v7 ensembles before submitting."
+ },
+ {
+  "submitted": "2026-09-30 10:16 (6th, id 952502)",
+  "model": "v6_ensemble_region_i05 5-model ensemble (DIII-D) + MAST agnostic_m3a_i00 flux (learned flux correction) + physics q95/betaN",
+  "rank": 28,
+  "entries": "~50",
+  "commit": "07a1ba612b3ce62db1aec715ef6f1a93e185e99a",
+  "pointer": "pointer_20260930T0014Z_07a1ba61.zip",
+  "scores": {
+   "d3d_S": 0.992005,
+   "d3d_r2_psi": 0.999758,
+   "d3d_r2_qb": 0.995886,
+   "d3d_dlcfs": 0.012114,
+   "d3d_consistency": 0.96983,
+   "mast_S": 0.521069,
+   "g_ratio": 0.525269
+  },
+  "notes": "DIII-D: the v6 5-model ensemble scores 0.99201 officially (local 0.99258), up from 0.99164; rank 29 -> 28. MAST: the M3a flux does NOT transfer. S 0.521 vs 0.575 with the physics flux: R2psi 0.814 (0.873), 1-D_LCFS 0.557 (0.755), consistency 0 (0.009); G_ratio 0.525 (0.580). As the elongation check warned (2.53 vs ~1.8-2.2), the learned correction imprints DIII-D shapes on MAST.",
+  "mast": {
+   "r2_psi": 0.814309,
+   "flux_sign": -1,
+   "r2_qb": 0.116351,
+   "dlcfs": 0.442539,
+   "consistency": 0.0,
+   "r2_psi_per_shot_mean": 0.802088,
+   "lcfs_fail_frac": 0.0
+  }
+ },
+ {
+  "submitted": "2026-09-30 14:47 (8th, id 952835)",
+  "model": "v6_ensemble_region_i05 (DIII-D) + MAST physics flux + physics q95/betaN, q95 aspect-ratio cap eps <= 0.7 (5.6% of frames at the q95 cap vs 17.4%; median q95 5.17 and betaN unchanged)",
+  "rank": 28,
+  "entries": "77",
+  "commit": "daf56160740c7c03e35b36a9b6503b718f2b7f43",
+  "pointer": "pointer_20260930T0440Z_daf56160.zip",
+  "scores": {
+   "d3d_S": 0.992005,
+   "d3d_r2_psi": 0.999758,
+   "d3d_r2_qb": 0.995886,
+   "d3d_dlcfs": 0.012114,
+   "d3d_consistency": 0.96983,
+   "mast_S": 0.586946,
+   "g_ratio": 0.591676
+  },
+  "notes": "Pushed 2026-09-30, NOT submitted. DIII-D file identical to 07a1ba61 (official 0.99201). MAST flux = psi_phys (official 0.575 with scal_phys); only the MAST scalars (scal_eps07.npy) change, so the MAST S and r2_qb shift measures this q95/betaN variant alone (scal_phys: r2_q95 0.149, r2_betaN 0.084). RESULT: best MAST so far - eps cap 0.7 lifts MAST r2_qb 0.116 -> 0.195, MAST S 0.575 -> 0.587, G_ratio 0.580 -> 0.592. Together with the Thomson result (-0.51): lower q95 on MAST helps; a tighter cap is the next probe.",
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.194927,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112,
+   "r2_psi_per_shot_mean": 0.863958,
+   "lcfs_fail_frac": 2.9e-05
+  }
+ },
+ {
+  "submitted": "2026-09-30 14:40 (7th, id 952826)",
+  "model": "v6_ensemble_region_i05 (DIII-D) + MAST physics flux + physics q95/betaN, R0 and a from the Thomson extent (median q95 8.28 vs 5.17, betaN median 2.06 vs 1.96)",
+  "rank": null,
+  "entries": "77",
+  "commit": "d139590197487ccf4497b963992ed8256ad0e63e",
+  "pointer": "pointer_20260930T0439Z_d1395901.zip",
+  "scores": {
+   "d3d_S": 0.992005,
+   "d3d_r2_psi": 0.999758,
+   "d3d_r2_qb": 0.995886,
+   "d3d_dlcfs": 0.012114,
+   "d3d_consistency": 0.96983,
+   "mast_S": 0.557707,
+   "g_ratio": 0.562202
+  },
+  "notes": "Pushed 2026-09-30, NOT submitted. DIII-D file identical to 07a1ba61 (official 0.99201). MAST flux = psi_phys (official 0.575 with scal_phys); only the MAST scalars (scal_thomson.npy) change, so the MAST S and r2_qb shift measures this q95/betaN variant alone (scal_phys: r2_q95 0.149, r2_betaN 0.084). RESULT: Thomson geometry is much worse - MAST r2_qb -0.506 (floored to 0 in S) vs 0.116, MAST S 0.558 vs 0.575, G 0.562. Raising q95 (median 5.2 -> 8.3) moves away from MAST's truth, so the physics q95 is if anything too high, not too low.",
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": -0.505915,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112,
+   "r2_psi_per_shot_mean": 0.863958,
+   "lcfs_fail_frac": 2.9e-05
+  }
+ },
+ {
+  "submitted": "2026-09-30 15:43 (9th, id 952876)",
+  "model": "v6_ensemble_region_i05 (DIII-D) + MAST physics flux + physics q95/betaN, eps cap 0.65 (q95 p50/p90 5.11/8.86, 1.1% capped)",
+  "rank": 28,
+  "entries": "77",
+  "commit": "0ff289267e181e8a2a2a73ab4365373c6be4b573",
+  "pointer": "pointer_20260930T0540Z_0ff28926.zip",
+  "scores": {
+   "d3d_S": 0.992005,
+   "d3d_r2_psi": 0.999758,
+   "d3d_r2_qb": 0.995886,
+   "d3d_dlcfs": 0.012114,
+   "d3d_consistency": 0.96983,
+   "mast_S": 0.588306,
+   "g_ratio": 0.593047
+  },
+  "notes": "Pushed 2026-09-30, NOT submitted. Tighter-cap probe after eps 0.7 lifted MAST r2_qb 0.116 -> 0.195 (S 0.587); only the MAST scalars differ from daf56160. RESULT: best MAST - r2_qb 0.204 (eps 0.7: 0.195), MAST S 0.588, G 0.593; the cap gain is flattening.",
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.203999,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112,
+   "r2_psi_per_shot_mean": 0.863958,
+   "lcfs_fail_frac": 2.9e-05
+  }
+ },
+ {
+  "submitted": "held (candidate)",
+  "model": "v6_ensemble_region_i05 (DIII-D) + MAST physics flux + physics q95/betaN, eps cap 0.6 (q95 p50/p90 4.69/7.56, 0.3% capped)",
+  "rank": null,
+  "entries": null,
+  "commit": "a3f37719e47d98c3f4c30e80c847d393cc5df144",
+  "pointer": null,
+  "scores": null,
+  "notes": "Pushed 2026-09-30, NOT submitted. Tighter-cap probe after eps 0.7 lifted MAST r2_qb 0.116 -> 0.195 (S 0.587); only the MAST scalars differ from daf56160."
+ },
+ {
+  "submitted": "2026-09-30 17:22 (10th, id 953015)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D) + MAST physics flux + physics q95/betaN, eps cap 0.65",
+  "rank": 26,
+  "entries": "77",
+  "commit": "df98320e729ba30554c687945eb95cafa7ed22e7",
+  "pointer": "pointer_20260930T0655Z_df98320e.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.588306,
+   "g_ratio": 0.59295
+  },
+  "notes": "Best so far on every metric. DIII-D 0.99217 (local 0.99277, gap 0.0006 as before; +0.00016 over the 5-model 0.99201), consistency 0.9705. MAST S 0.588, G 0.593 (unchanged MAST file). Ranks of 77: DIII-D 26 (was 28), G_ratio 23, MAST S 22, MAST q95+betaN 17.",
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.203999,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112
+  }
+ },
+ {
+  "submitted": "held (candidate)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D, same file as df98320e) + MAST physics flux + physics q95/betaN, peak betaN, eps cap 0.6",
+  "commit": "c3d179642bf50bcad29e645ca5bfddd243d7c639",
+  "notes": "Held candidate (pushed 2026-09-30). Only the MAST q95 changes vs df98320e: eps cap 0.65 -> 0.6 (0.7 scored lower, 0.65 beat no cap).",
+  "rank": null,
+  "entries": null,
+  "pointer": null,
+  "scores": null
+ },
+ {
+  "submitted": "2026-10-01 15:20 (11th, id 954506)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D, same file as df98320e) + MAST physics flux + physics q95/betaN, volume-averaged betaN, eps cap 0.65",
+  "commit": "501b7986f201513d92757d169d4056e42b7ce57c",
+  "notes": "New best MAST and G_ratio. Volume-averaged betaN lifts MAST q95+betaN R2 0.204 -> 0.294 (flux unchanged), MAST S 0.588 -> 0.602, G 0.593 -> 0.606; DIII-D unchanged (same file). Matches mast-check on the demo shots, which predicted the betaN gain.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261001T0519Z_501b7986.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.601734,
+   "g_ratio": 0.606484
+  },
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.293517,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112
+  }
+ },
+ {
+  "submitted": "2026-10-01 (12th)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D, same file as df98320e) + MAST physics flux + physics q95/betaN, volume-averaged betaN, eps cap 0.7",
+  "commit": "1497e5189a10ea398fa21f39e5f33425dc9f3c5d",
+  "notes": "eps 0.7 is slightly below eps 0.65 officially (q95+betaN R2 0.284 vs 0.294), against mast-check, which ranked 0.7 above 0.65 (demo q95 R2 0.61 vs 0.42). The demo shots got the betaN direction right but not the fine eps choice; officially 0.65 stays best (as on 2026-09-30). Leaderboard now shows this row, so re-upload 501b7986.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261001T0520Z_1497e518.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.600373,
+   "g_ratio": 0.605112
+  },
+  "mast": {
+   "r2_psi": 0.873347,
+   "flux_sign": -1,
+   "r2_qb": 0.284444,
+   "dlcfs": 0.244564,
+   "consistency": 0.009112
+  }
+ },
+ {
+  "submitted": "2026-10-01 17:14 (13th, id 954635)",
+  "model": "v8_ensemble_seeds_i05 9-model mean smoothed in time, sigma 0.5 (DIII-D) + MAST physics flux alpha 2.0, frac 0.4, kappa 1.6 + volume betaN, eps cap 0.65",
+  "commit": "abdf6f863ad8a5613dcf88aceb044d14cad2707f",
+  "notes": "MAST best yet: the alpha 2 / frac 0.4 flux lifts R2psi 0.873 -> 0.877 and q95+betaN 0.294 -> 0.320 (MAST S 0.6017 -> 0.6045, G 0.6065 -> 0.6093), but boundary distance worsens (0.245 -> 0.261) and consistency stays 0 (demo predicted 0.089). DIII-D smoothing did NOT transfer: 0.992144 vs 0.992168 unsmoothed (consistency 0.97040 vs 0.97049), against +0.00018 local / +0.00027 validation.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261001T0713Z_abdf6f86.zip",
+  "scores": {
+   "d3d_S": 0.992144,
+   "d3d_r2_psi": 0.999761,
+   "d3d_r2_qb": 0.995923,
+   "d3d_dlcfs": 0.01193,
+   "d3d_consistency": 0.970398,
+   "mast_S": 0.604496,
+   "g_ratio": 0.609283
+  },
+  "mast": {
+   "r2_psi": 0.877339,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.260607,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-01 21:23 (14th, id 954982)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D, file of df98320e) + MAST physics flux alpha 2.0, frac 0.4, volume betaN, eps cap 0.65 (file of abdf6f86)",
+  "commit": "d32bdf0c3646a2ef038f0372b2410860385e4709",
+  "notes": "Best on both challenges, exactly as predicted from the two source submissions: DIII-D 0.992168 (v8), MAST 0.6045, G 0.6093. Current leaderboard row.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261001T1123Z_d32bdf0c.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.604496,
+   "g_ratio": 0.609268
+  },
+  "mast": {
+   "r2_psi": 0.877339,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.260607,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-02 10:49 (15th, id 955794)",
+  "model": "v8_ensemble_seeds_i05 9-model mean (DIII-D, file of df98320e) + MAST flux alpha 2.0, frac 0.4 + SolenoidOffset (a + b * I_sol, fitted on the 3 labelled demo shots) + volume betaN, eps cap 0.65",
+  "commit": "1a42cdea34405d2a89c61fbc76a6eec20dc86277",
+  "notes": "The demo-fitted solenoid offset carries over: MAST R2psi 0.877 -> 0.936 (demo LOSO predicted 0.955), MAST S 0.6045 -> 0.6367, G 0.6093 -> 0.6417; boundary, q95/betaN and consistency unchanged as expected for a uniform shift. Uses MAST labels (the 3 demo shots); clean best stays d32bdf0c.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261002T0029Z_1a42cdea.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.636712,
+   "g_ratio": 0.641738
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-02 11:31 (16th, id 955836); re-uploaded 2026-10-03 12:39 (id 957768)",
+  "model": "v8 9-model mean (DIII-D, file of df98320e) + MAST flux alpha 2.0 frac 0.4 + SolenoidOffset + DemoScalarFit q95/betaN lines (both fitted on the 3 labelled demo shots), volume betaN, eps 0.65",
+  "commit": "f4fa3fea2f40dfd2da88ffe840f0cb6cd787fc15",
+  "notes": "The demo-fitted q95/betaN lines help, less than the demo predicted: q95+betaN R2 0.320 -> 0.373 (demo LOSO 0.104 -> 0.639), MAST S 0.6367 -> 0.6446, G 0.6417 -> 0.6497.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261002T0131Z_f4fa3fea.zip",
+  "scores": {
+   "d3d_S": 0.992168,
+   "d3d_r2_psi": 0.999765,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012034,
+   "d3d_consistency": 0.970494,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649666
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-03 12:35 (17th, id 957761)",
+  "model": "v8 9-model mean + 0.1 x XGBoost top-32 flux (DIII-D; w chosen on validation shots) + MAST as 1a42cdea",
+  "commit": "ccb9ef31f79246dfb66011617994b8621470a927",
+  "notes": "First DIII-D gain since v8: 0.992168 -> 0.992317 (+0.00015), consistency 0.97049 -> 0.97126. The official test sided with the validation shots (+0.00042) over the scoring shots (-0.00006). Scorer version 3.3.1. MAST identical to 1a42cdea.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261003T0235Z_ccb9ef31.zip",
+  "scores": {
+   "d3d_S": 0.992317,
+   "d3d_r2_psi": 0.999762,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012058,
+   "d3d_consistency": 0.971258,
+   "mast_S": 0.636712,
+   "g_ratio": 0.641642
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-03 18:53 (19th, id 958269)",
+  "model": "DIII-D as ccb9ef31 (v8 + 0.1 x XGBoost top-32) + MAST as f4fa3fea (offset psi, demo-fitted q95/betaN lines)",
+  "commit": "3f511e112b3995fb879079cee641c13c790574ca",
+  "notes": "Best on both challenges, exactly as predicted from its two source files. Current leaderboard row.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261003T0852Z_3f511e11.zip",
+  "scores": {
+   "d3d_S": 0.992317,
+   "d3d_r2_psi": 0.999762,
+   "d3d_r2_qb": 0.996012,
+   "d3d_dlcfs": 0.012058,
+   "d3d_consistency": 0.971258,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649569
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-04 14:01 (20th, id 959426)",
+  "model": "v8 + v14 ramp-weighted 15-member ensemble + 0.1 x XGBoost top-32 (DIII-D) + MAST as f4fa3fea",
+  "commit": "f42053603926935cba2d96c3d6b41f6364c0adcb",
+  "notes": "Best DIII-D by a hair: 0.992317 -> 0.992341 (+0.00002); the ramp-weighted members lift consistency (+0.00018) but cost a little R2psi and q95/betaN. About a sixth of the validation gain (+0.00014) carried over.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261004T0300Z_f4205360.zip",
+  "scores": {
+   "d3d_S": 0.992341,
+   "d3d_r2_psi": 0.999753,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.012031,
+   "d3d_consistency": 0.971439,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649553
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-05 (pointer_20261005T1220Z_9e381a13.zip)",
+  "model": "DIII-D: f4205360's base (v8 + v14 + 0.1 x trees) + 0.35 x hybrid (v16 3-member shape-target ensemble, rescaled to the base's envelope mean / spread) + MAST as f4fa3fea",
+  "commit": "9e381a131920130af3dc8d5c0ef2cf944f373da6",
+  "notes": "Best DIII-D: 0.992341 -> 0.992663 (+0.00032), consistency 0.9714 -> 0.9729; the validation gain (+0.00029) carried over in full. Pushed with the starter's push script (its manifest.json holds the HF token - rotate it).",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261005T1220Z_9e381a13.zip",
+  "scores": {
+   "d3d_S": 0.992663,
+   "d3d_r2_psi": 0.999759,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.01178,
+   "d3d_consistency": 0.972906,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649342
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-06 (pointer_20261005T2333Z_5cae79d2.zip)",
+  "model": "DIII-D: f4205360's base (v8 + v14 + 0.1 x trees) + 0.5 x hybrid (6-member shape-target ensemble v16 + v17, rescaled to the base's envelope mean / spread) + MAST as f4fa3fea",
+  "commit": "5cae79d2de6a0a1865c69061daec8933d6927dca",
+  "notes": "Best DIII-D: 0.992663 -> 0.992830 (+0.00017; validation predicted +0.00012), consistency 0.9729 -> 0.9737, D_LCFS 0.01178 -> 0.01165. Since v8: +0.00066.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261005T2333Z_5cae79d2.zip",
+  "scores": {
+   "d3d_S": 0.99283,
+   "d3d_r2_psi": 0.99976,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011645,
+   "d3d_consistency": 0.973671,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649233
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-06 (pointer_20261006T0325Z_0c9a8ac9.zip)",
+  "model": "DIII-D: f4205360's base (v8 + v14 + 0.1 x trees) + 0.65 x hybrid (12-member shape-target ensemble v16-v18, rescaled to the base's envelope mean / spread) + MAST as f4fa3fea",
+  "commit": "0c9a8ac9fad8acc6337395f20f9c8a10fcee5922",
+  "notes": "Best DIII-D: 0.99283 -> 0.992904 (+0.00007; about a third of the +0.00023 validation gain). Consistency 0.97367 -> 0.97400, D_LCFS 0.01165 -> 0.01156. Since v8: +0.00074.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261006T0325Z_0c9a8ac9.zip",
+  "scores": {
+   "d3d_S": 0.992904,
+   "d3d_r2_psi": 0.99976,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011559,
+   "d3d_consistency": 0.973998,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649185
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-06 (pointer_20261006T0350Z_b16bf9d0.zip)",
+  "model": "DIII-D as 0c9a8ac9 + MAST per-frame plasma shape (kappa ridge on P4-P6 sums / Ip clipped 1.6-2.2, Z0 ridge on P2-P6 / Ip clipped -0.01-0.03, both fitted on the demo shots) + SolenoidOffset + DemoScalarFit, volume betaN, eps 0.65",
+  "commit": "b16bf9d0db3043da2def1d6ac27d7ba4b4d13475",
+  "notes": "Negative: MAST 0.6446 -> 0.6430; consistency still 0, D_LCFS 0.261 -> 0.265, R2psi 0.936 -> 0.933. The demo shots predicted +0.011; half the test frames have P-coil configurations outside the demo range, so the demo-fitted shape models do not generalise. Re-upload 0c9a8ac9.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261006T0350Z_b16bf9d0.zip",
+  "scores": {
+   "d3d_S": 0.992904,
+   "d3d_r2_psi": 0.99976,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011559,
+   "d3d_consistency": 0.973998,
+   "mast_S": 0.643046,
+   "g_ratio": 0.647642
+  },
+  "mast": {
+   "r2_psi": 0.932882,
+   "flux_sign": -1,
+   "r2_qb": 0.37617,
+   "dlcfs": 0.264648,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-07 (pointer_20261007T0009Z_7a56d52a.zip)",
+  "model": "DIII-D: 0c9a8ac9's base (v8 + v14 + 0.1 x trees) + 0.65 x hybrid (21-member shape-target ensemble v16-v20) + 0.1 x shape-target trees (XGBoost top-32 shape PCA, rescaled to the base's envelope) + MAST as 0c9a8ac9",
+  "commit": "7a56d52a1386ffb2a86513145bff086d62ebe967",
+  "notes": "Best DIII-D: 0.992904 -> 0.993078 (+0.00017; about 80% of the +0.00021 validation gain). Hybrid 0.65 / shape trees 0.1 chosen on validation (0.992633); scoring 0.993751 vs 0.993568. Consistency 0.97400 -> 0.97481, D_LCFS 0.01156 -> 0.01144. Since v8: +0.00091. Built on CPU (GPU shared).",
+  "rank": 28,
+  "entries": 50,
+  "pointer": "pointer_20261007T0009Z_7a56d52a.zip",
+  "scores": {
+   "d3d_S": 0.993078,
+   "d3d_r2_psi": 0.999762,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011437,
+   "d3d_consistency": 0.974805,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649071
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-07 (pointer_20261007T1024Z_6525ba1d.zip)",
+  "model": "DIII-D: configs/blends/v21_27.yaml - 7a56d52a's blend with 27 shape-target members (+ six v21 seeds), hybrid 0.75, shape trees 0.1; built from repo code + MAST as 7a56d52a",
+  "commit": "6525ba1d0d3624daf06374a8452240ce797d7d73",
+  "notes": "Negative: 0.993078 -> 0.993074 (-0.000004) despite +0.000074 validation / +0.000076 scoring. More members of the same family no longer transfer; local gains under ~0.0001 are inside the noise of 40 + 40 shots. Keep 7a56d52a.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261007T1024Z_6525ba1d.zip",
+  "scores": {
+   "d3d_S": 0.993074,
+   "d3d_r2_psi": 0.999761,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011442,
+   "d3d_consistency": 0.974788,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649073
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-08 (pointer_20261008T0216Z_12068a0d.zip)",
+  "model": "DIII-D: configs/blends/v21_27_st15_2x.yaml - 27 shape-target members (hybrid 0.75), coefficient and shape trees refitted on twice the data (shape trees 0.15, v21 host), weights chosen on 160 never-scored held-out shots; built from repo code + MAST as 7a56d52a",
+  "commit": "12068a0dde6203cda17f8a6d5cc273625d4d2326",
+  "notes": "Best DIII-D: 0.993078 -> 0.993114 (+0.000036; locally positive in all five 40-shot groups, about +0.00008 averaged over the four without shot 6844). Consistency 0.97481 -> 0.97498. G 0.649071 -> 0.649047 (MAST unchanged; leaderboard shows 0.6490 either way, rank 19). The first gain chosen on 160 shots; trees on 2x data were the broad part.",
+  "rank": 28,
+  "entries": 50,
+  "pointer": "pointer_20261008T0216Z_12068a0d.zip",
+  "scores": {
+   "d3d_S": 0.993114,
+   "d3d_r2_psi": 0.999764,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011437,
+   "d3d_consistency": 0.974978,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649047
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-09 (pointer_20261009T0135Z_93605aab.zip)",
+  "model": "DIII-D: configs/blends/v21_27_full_grid.yaml - 12068a0d with both tree models refitted on all training frames and the grid shape model (grid_v1, FiLM U-Net on the 65x65 map) at 0.1 of the hybrid's 0.75; built from repo code + MAST as 7a56d52a",
+  "commit": "93605aab4d56aa3c48bfa06e548d0b79651694ff",
+  "notes": "Best DIII-D: 0.993114 -> 0.993186 (+0.000072), the first official gain from a new model family since the shape target; locally positive in all five 160-shot groups (+87 / +83 / +191 / +63 / +73 x 1e-6). Consistency 0.97498 -> 0.97537, D_LCFS 0.011437 -> 0.01151. Shows 0.9932 (was 0.9931), rank 29/50. G 0.649047 -> 0.649000 (MAST unchanged), rank 21.",
+  "rank": 29,
+  "entries": 50,
+  "pointer": "pointer_20261009T0135Z_93605aab.zip",
+  "scores": {
+   "d3d_S": 0.993186,
+   "d3d_r2_psi": 0.999767,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.01151,
+   "d3d_consistency": 0.975366,
+   "mast_S": 0.644578,
+   "g_ratio": 0.649
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-09 (pointer_20261009T0929Z_d3076dea.zip)",
+  "model": "DIII-D: configs/blends/v21_27_full_grid_v2.yaml - 93605aab with grid_v2 (FiLM U-Net, 48 channels, all training frames, 15 epochs) at 0.5 of the hybrid's 0.75; built from repo code + MAST as 7a56d52a",
+  "commit": "d3076dea72040fe6ff1a30686595a5728a75922d",
+  "notes": "Best DIII-D: 0.993186 -> 0.99352 (+0.000334), the largest official gain since the shape target; locally +0.000445 validation, +0.000301 scoring, +0.0009 on 160 shots, positive in every group. Consistency 0.97537 -> 0.97701, D_LCFS 0.01151 -> 0.011495, R2psi 0.999767 -> 0.999773. G 0.649000 -> 0.648782 (MAST unchanged). Shows 0.9935 (was 0.9932), alone above the 0.9932 group; rank 28/50, next 0.9944.",
+  "rank": 28,
+  "entries": 50,
+  "pointer": "pointer_20261009T0929Z_d3076dea.zip",
+  "scores": {
+   "d3d_S": 0.99352,
+   "d3d_r2_psi": 0.999773,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011495,
+   "d3d_consistency": 0.977012,
+   "mast_S": 0.644578,
+   "g_ratio": 0.648782
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-10 (pointer_20261010T0807Z_9c2c5fab.zip)",
+  "model": "DIII-D: configs/blends/v21_27_grids2.yaml - d3076dea with two grid_v2 seeds (grid_v2, grid_v2_s1) averaged at 0.6 of the hybrid's 0.75; built from repo code + MAST as 7a56d52a",
+  "commit": "9c2c5fab3bfbc8b1bdbf6d177ea59db1ff202cfa",
+  "notes": "Best DIII-D: 0.99352 -> 0.993769 (+0.000249); locally +0.000207 validation, +0.000055 scoring, +0.0005 on 160 shots, positive in every group. Consistency 0.97701 -> 0.97812, D_LCFS 0.011495 -> 0.011233 (first boundary gain from the grid). G 0.648782 -> 0.64862 (MAST unchanged). Shows 0.9938 (was 0.9935), rank 28/50, next 0.9939; Ch2 0.6486 rank 20.",
+  "rank": 28,
+  "entries": 50,
+  "pointer": "pointer_20261010T0807Z_9c2c5fab.zip",
+  "scores": {
+   "d3d_S": 0.993769,
+   "d3d_r2_psi": 0.999776,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011233,
+   "d3d_consistency": 0.978119,
+   "mast_S": 0.644578,
+   "g_ratio": 0.64862
+  },
+  "mast": {
+   "r2_psi": 0.935922,
+   "flux_sign": -1,
+   "r2_qb": 0.37257,
+   "dlcfs": 0.260645,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-10 (pointer_20261010T0903Z_62f9e89f.zip)",
+  "model": "DIII-D as 9c2c5fab (two-grid blend) + MAST label-free as d32bdf0c (physics flux alpha 2 / frac 0.4, volume betaN, eps cap 0.65; no demo-shot fits, rule 3)",
+  "commit": "62f9e89fc03404d8e3e04a6777f7995c85c412ec",
+  "notes": "Rule-3-compliant baseline: MAST 0.604496 (exactly d32bdf0c), G 0.608286 (was 0.64862 with the demo-fitted offset and lines, which the Final cannot use). R2psi 0.877339, q95+betaN R2 0.320132, D_LCFS 0.260607.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261010T0903Z_62f9e89f.zip",
+  "scores": {
+   "d3d_S": 0.993769,
+   "d3d_r2_psi": 0.999776,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011233,
+   "d3d_consistency": 0.978119,
+   "mast_S": 0.604496,
+   "g_ratio": 0.608286
+  },
+  "mast": {
+   "r2_psi": 0.877339,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.260607,
+   "consistency": 0.0
+  }
+ },
+ {
+  "submitted": "2026-10-10 (pointer_20261010T0907Z_f2b36e3e.zip)",
+  "model": "DIII-D as 9c2c5fab + MAST label-free d32bdf0c with the solenoid at half its shipped current (Data-page caveat: magnetics_sol_current reads 2x FAIR-MAST level-2); no MAST labels",
+  "commit": "f2b36e3e2757ecc39b5a55fa585342e64b23ba88",
+  "notes": "Negative overall: MAST 0.604496 -> 0.54068 (-0.064), G 0.54407. R2psi 0.877 -> 0.750 (flux level worse), but D_LCFS 0.2606 -> 0.2198 and consistency 0 -> 0.0117 (boundary shape better). The 2x factor does not explain the level error; the shipped convention stays.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261010T0907Z_f2b36e3e.zip",
+  "scores": {
+   "d3d_S": 0.993769,
+   "d3d_r2_psi": 0.999776,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011233,
+   "d3d_consistency": 0.978119,
+   "mast_S": 0.54068,
+   "g_ratio": 0.54407
+  },
+  "mast": {
+   "r2_psi": 0.749632,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.219799,
+   "consistency": 0.011712
+  }
+ },
+ {
+  "submitted": "2026-10-10 (pointer_20261010T0917Z_4c428222.zip)",
+  "model": "DIII-D as 9c2c5fab + MAST label-free d32bdf0c plus the SHAPE part of halving the solenoid (correction minus its per-frame grid mean; level kept); no MAST labels, chosen by official feedback (rule 3 feedback clause)",
+  "commit": "4c42822272854da7140be3f98ca8aaa125666d0a",
+  "notes": "Best compliant MAST: 0.604496 -> 0.627752 (+0.0233), G 0.608286 -> 0.631688. R2psi 0.877 -> 0.908, D_LCFS 0.2606 -> 0.2197, consistency 0 -> 0.0117; q95+betaN unchanged. Recovers ~58% of the banned demo-fitted offset's gain label-free.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261010T0917Z_4c428222.zip",
+  "scores": {
+   "d3d_S": 0.993769,
+   "d3d_r2_psi": 0.999776,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011233,
+   "d3d_consistency": 0.978119,
+   "mast_S": 0.627752,
+   "g_ratio": 0.631688
+  },
+  "mast": {
+   "r2_psi": 0.907922,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.219674,
+   "consistency": 0.011711
+  }
+ },
+ {
+  "submitted": "2026-10-11 (pointer_20261010T2335Z_07cfd3ff.zip)",
+  "model": "DIII-D: configs/blends/v21_27_grids3.yaml - three grid models (grid_v2, grid_v2_s1, grid_v3) averaged at 0.65 of the hybrid's 0.75; built from repo code + MAST label-free as 4c428222 (solenoid shape)",
+  "commit": "07cfd3fffbf78a0b012f384291e269d9b4318698",
+  "notes": "Best DIII-D: 0.993769 -> 0.993927 (+0.000158), consistency 0.97812 -> 0.97880, D_LCFS 0.011233 -> 0.011025; locally +0.0002 validation, +0.0001 scoring, +0.00027 on 160 shots, every group. Shows 0.9939 (ties hiren; next 0.9944), rank 29/50. MAST 0.627752, G 0.631588 (rank 21) - both challenges now from a rule-3-compliant pipeline.",
+  "rank": 29,
+  "entries": 50,
+  "pointer": "pointer_20261010T2335Z_07cfd3ff.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.627752,
+   "g_ratio": 0.631588
+  },
+  "mast": {
+   "r2_psi": 0.907922,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.219674,
+   "consistency": 0.011711
+  }
+ },
+ {
+  "submitted": "2026-10-11 (pointer_20261011T1137Z_dc37dc0a.zip)",
+  "model": "Probe, one change vs 07cfd3ff: MAST psi with a per-frame plasma shape (Z centroid, elongation ladder, O-point/coil guard) from a DIII-D-fitted vacuum-field map (feat/fusion-eq-mast-shape 7a7da52); DIII-D identical to 07cfd3ff; MAST q95/betaN as 4c428222; no MAST labels",
+  "commit": "dc37dc0aedce27ca5c03d047ef3457d16d7bb614",
+  "notes": "Best compliant MAST: 0.627752 -> 0.630077 (+0.002325), G 0.631588 -> 0.633927. Consistency doubled 0.011711 -> 0.023966, R2psi 0.907922 -> 0.909146, but D_LCFS worse 0.219674 -> 0.227664 (the DIII-D replay predicted the reverse). Not on the public leaderboard (the row keeps the best DIII-D entry). PROMOTE.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261011T1137Z_dc37dc0a.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.630077,
+   "g_ratio": 0.633927
+  },
+  "mast": {
+   "r2_psi": 0.909146,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.227664,
+   "consistency": 0.023966
+  }
+ },
+ {
+  "submitted": "2026-10-11 (pointer_20261011T1252Z_f10440d6.zip)",
+  "model": "DIII-D: configs/blends/v21_27_grids3_w75.yaml (grids 0.75, shape trees 0.10, PCA shape 0.05, base 0.10); MAST as 4c428222",
+  "commit": "f10440d64b3a107e9fb9ec188767ba5a2ad2c19e",
+  "notes": "Did not transfer: DIII-D 0.993927 -> 0.993924 (-0.000003; D_LCFS 0.011025 -> 0.011121, consistency 0.978802 -> 0.978831) despite winning all five 40-shot groups on 160 held-out shots (+0.000086). DISCARD.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261011T1252Z_f10440d6.zip",
+  "scores": {
+   "d3d_S": 0.993924,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011121,
+   "d3d_consistency": 0.978831,
+   "mast_S": 0.627752,
+   "g_ratio": 0.63159
+  },
+  "mast": {
+   "r2_psi": 0.907922,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.219674,
+   "consistency": 0.011711
+  }
+ },
+ {
+  "submitted": "2026-10-11 (pointer_20261011T1315Z_22d99887.zip)",
+  "model": "Probe, one change vs 07cfd3ff: MAST q95/betaN from boundaries extracted WITHOUT the scorer's MAST envelope (rule-3 mask clause), dropped frames (DIII-D kappa band, Thomson geometry) filled with the median boundary (feat/fusion-eq-mast-shape 3f6090d); DIII-D and MAST psi as 07cfd3ff",
+  "commit": "22d998875cabbec8ea448a67b355ede5ec913f5c",
+  "notes": "Cost of the rule-3 mask fix: MAST q95/betaN R2 0.320132 -> 0.208081, MAST S 0.627752 -> 0.610944 (-0.016808), G 0.631588 -> 0.614677. Required for the Final; next: a geometry-only extraction region and the shape-map flux instead of median fill.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261011T1315Z_22d99887.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.610944,
+   "g_ratio": 0.614677
+  },
+  "mast": {
+   "r2_psi": 0.907922,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.219674,
+   "consistency": 0.011711
+  }
+ },
+ {
+  "submitted": "2026-10-12 (pointer_20261012T0936Z_1b4990da.zip)",
+  "model": "Probe, one change vs dc37dc0a: mask-free MAST q95/betaN from boundaries extracted in a geometry-only region (agnostic box minus PF coils), implausible frames filled within their own shot (feat/fusion-eq-mast-scal-geom 9dec4a1); MAST psi as dc37dc0a, DIII-D as 07cfd3ff",
+  "commit": "1b4990dacd81ec0c625d211991b20dd08c5d6375",
+  "notes": "Worse: MAST q95/betaN R2 0.320 (masked) / 0.208 (strict mask-free) -> 0.115; MAST S 0.630077 -> 0.599281, G 0.602943. The label-free proxy (q95 correlation with the masked file 0.870 vs 0.778) pointed the wrong way; the labelled DIII-D check, where the shot fill hurt, was right. DISCARD.",
+  "rank": null,
+  "entries": 50,
+  "pointer": "pointer_20261012T0936Z_1b4990da.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.599281,
+   "g_ratio": 0.602943
+  },
+  "mast": {
+   "r2_psi": 0.909146,
+   "flux_sign": -1,
+   "r2_qb": 0.114822,
+   "dlcfs": 0.227664,
+   "consistency": 0.023966
+  }
+ },
+ {
+  "submitted": "2026-10-13 (pointer_20261013T1039Z_a4b4092c.zip)",
+  "model": "One DIII-D change vs 07cfd3ff: FNO grid member grid_fno added to the grid average at grids 0.70 (configs/blends/v21_27_grids3_fno.yaml); MAST as dc37dc0a",
+  "commit": "a4b4092c",
+  "notes": "Did not transfer: DIII-D S 0.993927 -> 0.993714 (-0.000213) where the 160-shot screen predicted +0.000212 (5/5 groups). Loss is consistency 0.978802 -> 0.977758 (-0.00104, x0.20 = -0.000209); R2psi +0.000001, D_LCFS 0.011025 -> 0.011071. Second local-screen miss after w75. DISCARD. Per scalar vs 07cfd3ff: the loss is the magnetic axis, R_axis -0.00361 and Z_axis -0.00463; kappa +0.00043, volume +0.00133, others within 0.0004.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261013T1039Z_a4b4092c.zip",
+  "scores": {
+   "d3d_S": 0.993714,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011071,
+   "d3d_consistency": 0.977758,
+   "mast_S": 0.630077,
+   "g_ratio": 0.634063
+  },
+  "mast": {
+   "r2_psi": 0.909146,
+   "flux_sign": -1,
+   "r2_qb": 0.320132,
+   "dlcfs": 0.227664,
+   "consistency": 0.023966,
+   "q95": 0.377794,
+   "betaN": 0.26247,
+   "consistency_per_scalar": {
+    "R_axis": -0.18016,
+    "Z_axis": 0.023357,
+    "kappa": -0.323146,
+    "tri_top": -0.076794,
+    "tri_bot": 0.07867,
+    "volume": 0.065734,
+    "li": -1.38622
+   }
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.976454,
+   "Z_axis": 0.984207,
+   "kappa": 0.965095,
+   "tri_top": 0.990527,
+   "tri_bot": 0.989087,
+   "volume": 0.985388,
+   "li": 0.953545
+  }
+ },
+ {
+  "submitted": "2026-10-13 (pointer_20261013T1054Z_10276142.zip)",
+  "model": "Probe, one change vs the compliant floor: mask-free MAST q95/betaN from predicted geometry (feat/fusion-eq-mast-geom-scalars 866f139); MAST psi as dc37dc0a, DIII-D as 07cfd3ff",
+  "commit": "10276142",
+  "notes": "Much worse: MAST q95/betaN R2 -0.582 (compliant floor 0.208, masked 0.320); MAST S 0.582057, G 0.585613. The labelled DIII-D replay (r2_qb 0.852) did not carry to MAST; q95 below 2.5 on 16.5% of MAST frames was the flagged risk. DISCARD.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261013T1054Z_10276142.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.582057,
+   "g_ratio": 0.585613
+  },
+  "mast": {
+   "r2_psi": 0.909146,
+   "flux_sign": -1,
+   "r2_qb": -0.581771,
+   "dlcfs": 0.227664,
+   "consistency": 0.023966
+  }
+ },
+ {
+  "submitted": "2026-10-14 (pointer_20261014T1043Z_688a773d.zip)",
+  "model": "Probe, one change vs the compliant combination dc37dc0a flux + 22d99887 scalars (MAST S 0.613269): MAST psi is the shape-map flux with a predicted Shafranov shift of the axis, fitted on DIII-D only (feat/fusion-eq-mast-geom-scalars, Task B); q95/betaN as 22d99887; DIII-D as 07cfd3ff",
+  "commit": "688a773d137c7b241d7d56d089fa8d1c417021f3",
+  "notes": "Better, and the DIII-D replay predicted it (+0.0059 vs official +0.006174): MAST S 0.619443, G 0.623228 = best compliant MAST. R2psi 0.909146 -> 0.911139, D_LCFS 0.227664 -> 0.225602, consistency 0.023966 -> 0.048324 (R_axis 0.034, Z_axis 0.023, kappa -0.265, tri_top -0.083, tri_bot 0.110, volume 0.172, li -1.362). q95/betaN unchanged 0.208. PROMOTE (compliant).",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261014T1043Z_688a773d.zip",
+  "scores": {
+   "d3d_S": 0.993927,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011025,
+   "d3d_consistency": 0.978802,
+   "mast_S": 0.619443,
+   "g_ratio": 0.623228
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.980061,
+   "Z_axis": 0.98884,
+   "kappa": 0.964661,
+   "tri_top": 0.99087,
+   "tri_bot": 0.989405,
+   "volume": 0.984058,
+   "li": 0.953716
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "q95": 0.143435,
+   "betaN": 0.272727,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324,
+   "consistency_per_scalar": {
+    "R_axis": 0.034164,
+    "Z_axis": 0.022786,
+    "kappa": -0.265007,
+    "tri_top": -0.083068,
+    "tri_bot": 0.109618,
+    "volume": 0.171701,
+    "li": -1.361843
+   }
+  }
+ },
+ {
+  "submitted": "2026-10-14 (pointer_20261014T1137Z_3facfca7.zip)",
+  "model": "One DIII-D change vs 688a773d: Final pick v21_16_grids3 (07cfd3ff with the 27-network PCA shape hybrid cut to its shape-tree host; fits the 24 A100-h rebuild); MAST as 688a773d",
+  "commit": "3facfca7e4a95bbcfb55bc0f52772095ef5abf57",
+  "notes": "Worse: DIII-D S 0.993927 -> 0.993573 (-0.000354) where the 160-shot screen had +0.000027. Loss is the magnetic axis again: R_axis -0.00447, Z_axis -0.00566; D_LCFS 0.011025 -> 0.011341. The 26 cut shape networks carry the axis. Third screen sign miss (w75, FNO, this), all on the axis. MAST identical to 688a773d. DISCARD as the Final pick.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261014T1137Z_3facfca7.zip",
+  "scores": {
+   "d3d_S": 0.993573,
+   "d3d_r2_psi": 0.999777,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.011341,
+   "d3d_consistency": 0.977192,
+   "mast_S": 0.619443,
+   "g_ratio": 0.62345
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.975596,
+   "Z_axis": 0.983176,
+   "kappa": 0.964266,
+   "tri_top": 0.990356,
+   "tri_bot": 0.98872,
+   "volume": 0.984153,
+   "li": 0.954077
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324
+  }
+ },
+ {
+  "submitted": "2026-10-15 (pointer_20261014T2113Z_54a70e7c.zip)",
+  "model": "a4b4092c's DIII-D blend (configs/blends/v21_27_grids3_fno.yaml) rebuilt on the GPU in float32 with TF32 off; MAST as 688a773d",
+  "commit": "54a70e7c53af5d04570bdb60a79fe375eda8fb89",
+  "notes": "New DIII-D best: S 0.993927 -> 0.994037 (+0.000110 vs 07cfd3ff; +0.000323 vs the same blend built in bf16, a4b4092c). R_axis 0.98042 and Z_axis 0.989152 now above 07cfd3ff's; kappa, volume also up. Confirms the bf16 diagnosis: the axis losses of a4b4092c and 3facfca7 were build precision, not the models. Float32 160-shot screen had +0.000212, so ~0.5 transfer. MAST identical to 688a773d; G 0.623159 (denominator rose). PROMOTE.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261014T2113Z_54a70e7c.zip",
+  "scores": {
+   "d3d_S": 0.994037,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.010795,
+   "d3d_consistency": 0.979231,
+   "mast_S": 0.619443,
+   "g_ratio": 0.623159
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.98042,
+   "Z_axis": 0.989152,
+   "kappa": 0.965512,
+   "tri_top": 0.990977,
+   "tri_bot": 0.989528,
+   "volume": 0.985412,
+   "li": 0.953616
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324
+  }
+ },
+ {
+  "submitted": "2026-10-17 (pointer_20261016T2235Z_d5a34274.zip)",
+  "model": "Final pick configs/blends/v21_16_grids3_fno2.yaml (16 MLPs, shape-tree host only, grid_v3 + grid_fno + grid_fno_s1 at 0.75; 16.0-18.8 idle A100-h) built on the GPU in float32, TF32 off; MAST as 688a773d",
+  "commit": "d5a342744be751c86d4abd81829390ac4b4e9325",
+  "notes": "New DIII-D best: S 0.994037 -> 0.994192 (+0.000155 vs 54a70e7c, +0.000265 vs 07cfd3ff); screen had +0.000307 over 54a70e7c's blend (~0.5 transfer, as before). Gains in kappa (+0.0017), volume (+0.0016), tri_bot, li, R_axis and D_LCFS (0.010795 -> 0.010454); Z_axis -0.00017, as its higher Z jitter (8.66 vs 8.28 mm) hinted. The budget-fitting Final pick beats every Development entry. MAST identical; G 0.623062. PROMOTE.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261016T2235Z_d5a34274.zip",
+  "scores": {
+   "d3d_S": 0.994192,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.010454,
+   "d3d_consistency": 0.979839,
+   "mast_S": 0.619443,
+   "g_ratio": 0.623062
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.980819,
+   "Z_axis": 0.988978,
+   "kappa": 0.967208,
+   "tri_top": 0.990873,
+   "tri_bot": 0.98994,
+   "volume": 0.987032,
+   "li": 0.954019
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324
+  }
+ },
+ {
+  "submitted": "2026-10-17 (pointer_20261016T2325Z_4bef7fb6.zip)",
+  "model": "54a70e7c (configs/blends/v21_27_grids3_fno.yaml, GPU float32 build) with psi stored as float32 instead of float16 (build --psi-dtype float32); MAST as 688a773d",
+  "commit": "4bef7fb6576b67e0779e0d13ab728881866d576e",
+  "notes": "New DIII-D best: S 0.994037 -> 0.994423 (+0.000386 from storage dtype alone; the 160-shot screen had +0.000187 for H, so this lever transfers at ~2x, not ~0.5). Consistency 0.979231 -> 0.980769 (Z_axis +0.0021, tri_top +0.0020, tri_bot +0.0018, R_axis +0.0014, kappa +0.0032) and D_LCFS 0.010795 -> 0.010009. Axis jitter 5.62/7.01 mm vs 6.74/8.28. MAST identical; G 0.622917. PROMOTE.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261016T2325Z_4bef7fb6.zip",
+  "scores": {
+   "d3d_S": 0.994423,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.010009,
+   "d3d_consistency": 0.980769,
+   "mast_S": 0.619443,
+   "g_ratio": 0.622917
+  },
+  "d3d_consistency_per_scalar": {
+   "R_axis": 0.981869,
+   "Z_axis": 0.991249,
+   "kappa": 0.968669,
+   "tri_top": 0.992966,
+   "tri_bot": 0.991329,
+   "volume": 0.985461,
+   "li": 0.953837
+  },
+  "mast": {
+   "r2_psi": 0.911139,
+   "flux_sign": -1,
+   "r2_qb": 0.208081,
+   "dlcfs": 0.225602,
+   "consistency": 0.048324
+  }
+ }
+]

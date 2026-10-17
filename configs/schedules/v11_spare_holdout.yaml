@@ -1,0 +1,21 @@
+# v11: the PCA-MLP family has plateaued (v9: 9 -> 17 members flat; v10: history flat), and every model so far has
+# trained without the 200 held-out shots. --spare-holdout adds the 160 of them that are never scored, so the 40 scoring
+# shots stay unseen and the local score stays comparable. The 9 members repeat v8's configs (v5_loss_mix_i03,
+# v6_ensemble_region_i00-i03, v8_ensemble_seeds_i00-i03) seed for seed. Falsified if the 9-model mean does not beat
+# v8_ensemble_seeds_i05 (0.99277) and the seed-matched members do not rise on average.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --spare-holdout]
+iters:
+  - {description: "seed 0 (pair: v5_loss_mix_i03)", overrides: [--seed, 0]}
+  - {description: "seed 1 (pair: v6_ensemble_region_i00)", overrides: [--seed, 1]}
+  - {description: "seed 2 (pair: v6_ensemble_region_i01)", overrides: [--seed, 2]}
+  - {description: "region loss 1, seed 0 (pair: v6_ensemble_region_i02)", overrides: [--region-weight, 1.0, --seed, 0]}
+  - {description: "region loss 3, seed 0 (pair: v6_ensemble_region_i03)", overrides: [--region-weight, 3.0, --seed, 0]}
+  - {description: "seed 3 (pair: v8_ensemble_seeds_i00)", overrides: [--seed, 3]}
+  - {description: "seed 4 (pair: v8_ensemble_seeds_i01)", overrides: [--seed, 4]}
+  - {description: "region loss 1, seed 1 (pair: v8_ensemble_seeds_i02)", overrides: [--region-weight, 1.0, --seed, 1]}
+  - {description: "region loss 3, seed 1 (pair: v8_ensemble_seeds_i03)", overrides: [--region-weight, 3.0, --seed, 1]}
+  - description: "9-model mean (pair: v8_ensemble_seeds_i05)"
+    command: ensemble
+    overrides: [--members, "v11_spare_holdout_i00,v11_spare_holdout_i01,v11_spare_holdout_i02,v11_spare_holdout_i03,v11_spare_holdout_i04,v11_spare_holdout_i05,v11_spare_holdout_i06,v11_spare_holdout_i07,v11_spare_holdout_i08"]
+    timeout_min: 30

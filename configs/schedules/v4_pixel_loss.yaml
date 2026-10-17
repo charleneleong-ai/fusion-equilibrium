@@ -1,0 +1,17 @@
+# v4: the loss, not capacity. v3 plateaued at S ~0.987 across depth 6/10, PCA 192/256 and 60/80 epochs, with the
+# consistency scalars (kappa, Z_axis, volume ~0.94-0.95) as the remaining gap. The coefficient loss so far weights every
+# standardised PCA coefficient equally, so low-variance noise modes count as much as the modes that shape psi.
+# `--coef-loss pixel` weights by variance, which makes the loss the MSE on psi itself.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192]
+iters:
+  - description: "v3 best (2048x6, 60 ep) with pixel loss"
+    overrides: [--hidden, 2048, --layers, 6, --epochs, 60, --coef-loss, pixel]
+  - description: "deeper 2048x10, 60 ep, pixel loss"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 60, --coef-loss, pixel]
+  - description: "2048x10, 120 ep, pixel loss"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, pixel]
+  - description: "2048x10, 120 ep, std loss (does length alone help at depth?)"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 120]
+  - description: "2048x10, PCA 256, 120 ep, pixel loss"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, pixel, --n-components, 256]

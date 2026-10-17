@@ -1,0 +1,9 @@
+[tasks.build]
+description = "Build the methods report PDF"
+run = "set +e; pdflatex -interaction=nonstopmode main.tex > /dev/null 2>&1; pdflatex -interaction=nonstopmode main.tex > /dev/null 2>&1; exit 0"
+
+[tasks.clean]
+run = "rm -f main.pdf main.aux main.log main.out"
+
+[tasks.open]
+run = "open main.pdf"

@@ -1,0 +1,12 @@
+# v19: twelve shape-target members gave +0.00007 officially over six (a third of the validation gain), so more seeds
+# of one setting are saturating. Vary the setting instead - PCA size and temporal context - to add diversity the
+# way the trees and the shape target itself did. Each is tested as extra members of the twelve-member hybrid.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --batch, 2048, --lr, 1e-3, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize]
+iters:
+  - {description: "shape target, PCA 128, seed 20", overrides: [--n-components, 128, --context, 4, --seed, 20]}
+  - {description: "shape target, PCA 128, seed 21", overrides: [--n-components, 128, --context, 4, --seed, 21]}
+  - {description: "shape target, PCA 256, seed 20", overrides: [--n-components, 256, --context, 4, --seed, 20]}
+  - {description: "shape target, PCA 256, seed 21", overrides: [--n-components, 256, --context, 4, --seed, 21]}
+  - {description: "shape target, context 6, seed 20", overrides: [--n-components, 192, --context, 6, --seed, 20]}
+  - {description: "shape target, context 2, seed 20", overrides: [--n-components, 192, --context, 2, --seed, 20]}

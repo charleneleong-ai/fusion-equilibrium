@@ -1,0 +1,368 @@
+# One entry per sweep, newest last; the dashboard and the W&B report render these.
+# verdict: KEEP (kept for later work) / DISCARD / PROMOTE (shipped in a submission that set a new best).
+# gate: G1 / G2 are defined in scripts/update_wandb_report.py (GATES).
+- sweep: pre-sweep
+  label: Baselines
+  verdict: KEEP
+  baseline: PCA 64 + ridge, S 0.822
+  gate: first trained model above the linear baseline
+  result: PCA 64 + ridge reaches S 0.822; the vacuum term is irrelevant for a linear model. A residual MLP jumps to 0.970.
+  pr: 9
+- sweep: v1_mlp
+  label: Context, vacuum, capacity
+  verdict: KEEP
+  baseline: residual MLP 1024x4, S 0.970
+  gate: G1
+  result: Temporal context and the vacuum term are both within noise. The wide 2048x6 net needs 25 epochs to pay off (0.9794
+    best).
+  pr: 12
+- sweep: v2_batch
+  label: Large batches
+  verdict: DISCARD
+  baseline: batch 2048 (v1 best 0.9794)
+  gate: G1
+  result: Falsified and cut after 2 of 5 iters. Batch 8192 fell to 0.684 (fp32) and 0.915 (bf16); bf16 trains 4.5x faster.
+  pr: 12
+- sweep: v3_long_bf16
+  label: bf16 and longer training
+  verdict: KEEP
+  baseline: v1 best 0.9794
+  gate: G1
+  result: Epochs are the lever up to 60 (0.9762 at 25, 0.9873 at 60), then a plateau near 0.987 across depth 10, PCA 256,
+    80 epochs and batch 4096. Best 0.9875 (2048x10).
+  pr: 12
+- sweep: v4_pixel_loss
+  label: Pixel-space loss
+  verdict: DISCARD
+  baseline: v3 best 0.9875
+  gate: G1
+  result: Variance-weighting the PCA loss nearly perfects psi (R2 0.9997) but costs the shape scalars, Z_axis worst. Best
+    0.9865, below v3. Two runs lost to a false GPU-memory kill.
+  pr: 12
+- sweep: v5_loss_mix
+  label: Blended loss, longer training
+  verdict: PROMOTE
+  baseline: v3 best 0.9875
+  gate: G1; then the first Codabench entry (official 0.9905)
+  result: A 50/50 blend of the standard and pixel losses keeps the flux accuracy and lifts the shape scalars. With depth 10
+    and 120 epochs it reaches 0.9915 (a lucky seed; v6 measured single-model noise at about 0.0013).
+  pr: 12
+- sweep: v6_ensemble_region
+  label: Seed ensembles, envelope loss
+  verdict: PROMOTE
+  baseline: v5 single model 0.9915
+  gate: G1; official 0.99164 (3 seeds), 0.99201 (5 models)
+  result: Seeds 1 and 2 of the v5 winner score 0.9901-0.9902, so single-model noise is about 0.0013. The envelope-region loss
+    is within that noise. Ensembles lift every shape scalar - 3 seeds 0.9922 (official 0.9916, rank 29), 5 models 0.9926.
+  pr: 12
+- sweep: v7_thomson_hr
+  label: Full-resolution Thomson inputs
+  verdict: DISCARD
+  baseline: v6 3-seed ensemble 0.9922
+  gate: G1
+  result: One station per chord with the samples averaged over each 20 ms frame is worse on all three seeds (-0.0033, -0.0013,
+    -0.0007) and li falls on every one. The 3-seed ensemble 0.9909 loses to the standard 0.9922, and the extra members drag
+    the 6-model mix (0.9924) below the 5-model best (0.9926).
+  pr: 12
+- sweep: v8_ensemble_seeds
+  label: Seven- and nine-model ensembles
+  verdict: PROMOTE
+  baseline: v6 5-model ensemble 0.9926
+  gate: G1; official 0.99217
+  result: Two more seeds and two more region-loss runs lift the mean to 0.9927 (7 models) and 0.9928 (9 models), consistency
+    0.9727; each doubling now adds about 0.0002. Choosing members or taking the median on never-scored shots does worse on
+    the scoring shots (top-5 mean 0.9925), since member differences are shot noise.
+  pr: 12
+- sweep: v9_ensemble_more
+  label: Thirteen- and seventeen-model ensembles
+  verdict: DISCARD
+  baseline: v8 9-model ensemble 0.99277
+  gate: G1
+  result: Eight more members (0.9885-0.9905 each) no longer move the mean - 13 models 0.99277, 17 models 0.99272 against the
+    9-model 0.99277. Averaging has saturated.
+  pr: 12
+- sweep: v10_history
+  label: Shot-history features
+  verdict: DISCARD
+  baseline: v8 members on matched seeds
+  gate: G1
+  result: Time in the shot, past |Ip| means, its ramp and past core Te leave S flat on two seed-matched pairs (-0.0001) and
+    lower on the lucky seed 0 (-0.0039); li rises on two seeds (+0.005, +0.011) but kappa does not. The model family is at
+    its plateau.
+  pr: 15
+- sweep: v11_spare_holdout
+  label: Training on the never-scored held-out shots
+  verdict: DISCARD
+  baseline: v8 9-model ensemble 0.99277
+  gate: G1
+  result: Retraining v8's nine members with the 160 never-scored held-out shots moves members -0.0004 on average (inside seed
+    noise) and the 9-model mean to 0.99260 against 0.99277; the model is not data-limited. Mixing both sets (18 models) scores
+    0.99283, within noise of v8.
+  pr: 17
+- sweep: v12_temporal
+  label: Whole-shot temporal model
+  verdict: DISCARD
+  baseline: v8 3-seed mean 0.99223
+  gate: G1
+  result: Dilated convolutions over the whole shot after the per-frame MLP lose on every seed-matched pair (-0.0065 / -0.0035
+    / -0.0054) and the 3-seed mean (0.98874 vs 0.99223); every consistency term falls. Windows of correlated frames give fewer
+    independent samples per step. Off by default.
+  pr: 20
+- sweep: v13_capacity
+  label: Wider and longer members
+  verdict: DISCARD
+  baseline: 2048 x 120 members on the same seeds, 0.99081
+  gate: G1
+  result: 4096-wide (0.98826 on two seeds), 240-epoch (0.98955) and both (0.98929, one seed) members all lose to the 2048
+    x 120 config on the same seeds (0.99081); consistency and kappa fall. Extra capacity fits the training shots, not the
+    shape scalars.
+  pr: 22
+- sweep: v14_ramp
+  label: Ramp-weighted members
+  verdict: PROMOTE
+  baseline: v8 base (official 0.992317 with trees)
+  gate: G2
+  result: Weighting ramp-up / ramp-down frames 2x or 4x weakens single members (-0.0007 to -0.0008 on matched seeds) but they
+    are diverse - six lift v8's validation S +0.00044 against +0.00007 for six plain members; officially +0.00002 (0.992341).
+  pr: 23
+- sweep: v15_ramp_more
+  label: More ramp-weighted members
+  verdict: DISCARD
+  baseline: v14 six ramp-weighted members
+  gate: G2
+  result: Six more ramp-weighted members lower the ensemble (-0.00035 on validation); the ramp direction stops.
+  pr: 24
+- sweep: v16_normalize
+  label: Shape-only flux target
+  verdict: PROMOTE
+  baseline: f4205360 base (official 0.992341)
+  gate: G2
+  result: Predicting the flux shape (centred / scaled in the envelope) plus its mean and spread lifts consistency (+0.0023
+    on the 3-seed mean) but loses R2psi; as a hybrid blend (normalized shape, base level and spread) it lifts both held-out
+    sets (+0.00029 / +0.00049).
+  pr: 24
+- sweep: v17_normalize_more
+  label: More shape-target members
+  verdict: PROMOTE
+  baseline: three shape-target members (official 0.992663)
+  gate: G2
+  result: Six shape-target members beat three in the hybrid (validation 0.992194 vs 0.992072, scoring 0.993408 vs 0.993242)
+    and the best weight rises to 0.5; seed 5 is the best single member yet (0.99184).
+  pr: 24
+- sweep: v18_normalize_six
+  label: Twelve shape-target members
+  verdict: PROMOTE
+  baseline: six shape-target members (official 0.99283)
+  gate: G2
+  result: Twelve members beat six in the hybrid (validation 0.992421 vs 0.992194, scoring 0.993566 vs 0.993408) and the best
+    weight rises to 0.65; officially 0.992904 (+0.00007). Single members stay at 0.9897-0.9918.
+  pr: 24
+- sweep: v19_normalize_variants
+  label: Shape-target variants (PCA size, context)
+  verdict: PROMOTE
+  baseline: twelve shape-target members (official 0.992904)
+  gate: G2
+  result: PCA 128 / 256 and context 6 / 2 members (0.9900-0.9917) each lift the twelve-member hybrid on both sets; all six
+    add +0.00013 validation (0.992556) and +0.00017 scoring.
+  pr: 24
+- sweep: v20_normalize_ramp
+  label: Ramp-weighted shape-target members
+  verdict: PROMOTE
+  baseline: v19 blend (21 members, official 0.993078)
+  gate: G2
+  result: Shape target plus ramp weight 2 (0.9901-0.9915) adds +0.00007 validation to 12 members and +0.00003 on top of v19.
+    With 0.1 x trees on the shape target, the 21-member blend (validation 0.992633) scored 0.993078 officially (+0.00017).
+  pr: 24
+- sweep: v21_normalize_seeds
+  label: 27 shape-target members
+  verdict: KEEP
+  baseline: 21-member blend 7a56d52a (official 0.993078)
+  gate: G2
+  result: Six more seeds (0.9899-0.9919; seed 40 the best member yet) lift the blend +0.00007 on both local sets (validation
+    0.992713) but officially 0.993074 against 0.993078. More members of this family no longer transfer; gains under ~0.0001
+    are noise on 40 + 40 shots.
+  pr: 24
+- sweep: blend
+  label: Blends chosen on 160 held-out shots
+  verdict: PROMOTE
+  baseline: 7a56d52a (official 0.993078)
+  gate: G2
+  result: Fixed-weight blends of the MLP base, coefficient trees, the shape-target hybrid, shape trees and grid models (configs/blends/*.yaml).
+    Weights are chosen on 160 never-scored shots and must win in most 40-shot groups. Officially 0.993078 (7a56d52a) -> 0.993114
+    (trees on 2x data) -> 0.993927 (three grid models, 07cfd3ff).
+  pr: 26
+- sweep: grid
+  label: Grid U-Net shape model
+  verdict: PROMOTE
+  baseline: 12068a0d, no grid (official 0.993114)
+  gate: G2
+  result: A FiLM U-Net predicting the 65x65 flux shape from the vacuum-flux map, R/Z maps and features. Validation envelope
+    loss 0.00105 (32 channels) -> 0.00075 (48) -> 0.00064 (64). In the blend it lifted the official score by +0.00081 over
+    four submissions, mostly through consistency (0.9750 -> 0.9788). A Grad-Shafranov loss (weight 50) hurt (val loss 0.0031)
+    and is closed.
+  pr: 26
+- sweep: grid_v2_gs
+  label: Grad-Shafranov loss on the grid model
+  verdict: DISCARD
+  baseline: H 07cfd3ff on 160 shots (0.993914)
+  gate: G2
+  result: Weight 50 raises the validation envelope loss to 0.0031 (grid_v2 0.00075); as an extra grid, a replacement or alone
+    it loses to H on 160 shots (0.993827 / 0.993863 / 0.992890). Closed unless retried at weight 5 or less.
+  pr: 26
+- sweep: gs_free
+  label: Free-boundary Grad-Shafranov for MAST shape
+  verdict: DISCARD
+  baseline: physics flux (vacuum + Thomson ellipse), DIII-D S 0.5013, consistency 0
+  gate: consistency above 0 on held-out DIII-D (labels allowed) before any MAST use
+  result: 'Pinned centroid: S 0.5035, consistency 0, scalar R2 -9 (R_axis) / -11 (kappa); free centroid: S 0.392, R_axis -37.
+    The solve cannot track shape without magnetics or vessel currents. Closed.'
+  pr: 26
+- sweep: blend_w75
+  label: Blend re-weighted towards the grid models
+  verdict: DISCARD
+  baseline: H 07cfd3ff on 160 shots (0.993914); official 0.993927
+  gate: G2
+  result: 'Won all five 40-shot groups on 160 shots (0.994000, +0.000086) but did not transfer: official f10440d6 0.993924
+    (-0.000003; D_LCFS 0.011025 -> 0.011121). Another sub-1e-4 local gain that did not survive the public test.'
+  pr: 26
+- sweep: mast_geometry_freegs
+  label: MAST coil geometry vs FreeGS MAST() (lever 4)
+  verdict: DISCARD
+  baseline: label-free MAST 4c428222 (R2psi 0.908)
+  gate: a geometry-only fix that explains the solenoid-tracking flux level, with no constant chosen by scores (rule 3)
+  result: 'Our shipped FAIR-MAST geometry (656-turn, 4-layer solenoid; multi-turn PF coils) is the more detailed description; PF
+    coils agree within 1-5%. FreeGS''s solenoid radius sits inside our layer span, so it gives no direction; at most ~0.006 Wb/rad
+    of the 0.022 per-frame level std from geometry. Closed.'
+  pr: 26
+- sweep: qb_stack
+  label: Stacked q95/betaN on predicted geometry (lever 3)
+  verdict: DISCARD
+  baseline: base q95/betaN of the w75 blend on the 200 held-out shots (R2_qb ~0.996)
+  gate: dS > 0 on the 40 clean scoring shots (shrink chosen on the four other groups before looking)
+  result: 'XGBoost residuals on scorer-derived geometry, a Thomson stored-energy proxy and textbook q95/betaN priors,
+    cross-fitted over five 40-shot groups: +1e-6 to +2e-6 S on the non-scoring groups and -0.000005 on the scoring
+    group at the chosen shrink 0.5. The geometry adds nothing the base scalars lack. Code stays on
+    feat/fusion-eq-qb-stack (52a7127). Closed.'
+  pr: 26
+- sweep: mast_shape
+  label: MAST per-frame plasma shape from a DIII-D-fitted vacuum-field map (lever 1b)
+  verdict: PROMOTE
+  baseline: label-free MAST 4c428222 (MAST S 0.627752, G 0.631588)
+  gate: one Development submission (rule-3 feedback clause, disclosed) beating MAST S 0.627752 with DIII-D unchanged
+  result: 'Official dc37dc0a: MAST S 0.630077 (+0.002325), G 0.633927; consistency 0.0117 -> 0.0240 and R2psi 0.9079 -> 0.9091,
+    D_LCFS 0.2197 -> 0.2277 (worse). Map fitted and validated on DIII-D only; MAST labels never used.'
+  pr: 26
+- sweep: mast_scalars_nomask
+  label: Mask-free MAST q95/betaN (rule-3 fix), median fill for implausible boundaries
+  verdict: KEEP
+  baseline: masked MAST scalars of 4c428222 (q95/betaN R2 0.320, MAST S 0.627752)
+  gate: required for the Final (rule-3 mask clause); measure the cost with one Development submission
+  result: 'Official 22d99887: q95/betaN R2 0.320 -> 0.208, MAST S -0.0168 (0.610944), G 0.614677. Compliant but costly: a third of
+    frames take the median boundary. Kept as the compliant floor; next is a geometry-only extraction region.'
+  pr: 26
+- sweep: mast_scalars_geom_region
+  label: Mask-free MAST q95/betaN in a geometry-only region with per-shot fill
+  verdict: DISCARD
+  baseline: dc37dc0a (masked scalars, q95/betaN R2 0.320); compliant floor 22d99887 (0.208)
+  gate: beat the compliant floor (q95/betaN R2 0.208) with MAST psi as dc37dc0a
+  result: 'Official 1b4990da: q95/betaN R2 0.115, MAST S 0.599281. The label-free proxy (q95 correlation with the masked file 0.870)
+    pointed the wrong way; the labelled DIII-D replay, where the per-shot fill hurt q95, was right. Proxies built on our own masked
+    output are not evidence of accuracy.'
+  pr: 26
+- sweep: grid_v3_variants
+  label: grid_v3_env8 (envelope weight 8) and grid_v3_ctx8 (+-8 frames) in H's blend
+  verdict: DISCARD
+  baseline: H 07cfd3ff on 160 shots (0.993914)
+  gate: G2, and after w75 (+0.000086 did not transfer) more than ~1e-4 on 160 shots
+  result: 'Validation envelope loss env8 0.0006, ctx8 0.0009 (grid_v3 0.00064). Best blend: ctx8 as a fourth grid, +0.000063 on 160
+    shots, winning 2 of 4 groups (gain concentrated in spare2); env8 + ctx8 +0.000047 (3 of 4); env8 alone +0.000009; env8 for v3
+    -0.000167. Below the transfer bar; ctx8 adds the most diversity if a later blend needs it.'
+  pr: 26
+- sweep: grid_fno_seeds
+  label: Second FNO seed (grid_fno_s1) in the grid average of a4b4092c, grids 0.70 / 0.75
+  verdict: KEEP
+  baseline: a4b4092c (07cfd3ff + grid_fno at 0.70) on 160 shots (0.994126)
+  gate: G2, more than ~1e-4 on 160 shots and most groups won
+  result: 'grid_fno_s1 validation envelope loss 0.00054 (grid_fno 0.00058). Both FNOs at 0.75: 0.994316, +0.000190 on 160 shots,
+    4 of 5 groups (scoring -0.000032); at 0.70 +0.000147, 4 of 5. Built, never pushed: a4b4092c itself lost 0.000213 officially, so
+    a second seed of the same member is not worth a submission. Re-opened 15 Oct: the a4b4092c loss was the bf16 GPU build, not the FNO.'
+  pr: 26
+- sweep: grid_fno
+  label: FNO grid member grid_fno in 07cfd3ff's grid average at 0.70
+  verdict: KEEP
+  baseline: 07cfd3ff official DIII-D S 0.993927
+  gate: G2 (+0.000212 on 160 shots, 5 of 5 groups), then the official score
+  result: 'Official a4b4092c: DIII-D S 0.993714 (-0.000213), the opposite sign to the screen. Consistency 0.978802 -> 0.977758 carries
+    the loss; R2psi flat. Second screen-passing grid change after w75 that failed officially: the 160-shot screen does not rank grid
+    changes on the 874 official shots. Re-diagnosed 15 Oct (docs/fno-transfer-diagnosis.md): a4b4092c was built on the GPU, where grid inference ran under bf16
+    autocast; the noise moves the axis. Emulated, the screen reproduces the loss. Float32 CPU rebuild queued as the retest.'
+  pr: 26
+- sweep: mast_scalars_geom_pred
+  label: Mask-free MAST q95/betaN from predicted geometry (Task A)
+  verdict: DISCARD
+  baseline: compliant floor 22d99887 (q95/betaN R2 0.208)
+  gate: beat the compliant floor with MAST psi as dc37dc0a
+  result: 'Official 10276142: q95/betaN R2 -0.582, MAST S 0.582057. The DIII-D labelled replay (0.852) did not transfer to MAST.'
+- sweep: mast_vessel_circuit
+  label: Induced vessel/passive currents from a published-constant circuit model (MAST, label-free)
+  verdict: DISCARD
+  baseline: label-free MAST 4c428222 (R2psi 0.908)
+  gate: a label-free term whose per-frame level tracks I_sol (demo diagnosis corr -0.99) at ~0.01 Wb/rad, every constant from a cited source
+  result: 'FreeGSNKE MAST-U-like steel vessel (22 elements, L/R 32 ms) and vessel + centre tube + P4-6 cases (58, 33 ms) on 41
+    test shots: level std 0.007 / 0.016 Wb/rad but corr with I_sol -0.04 / -0.13 (Ip +0.7, dI_sol/dt -0.3). Tracking I_sol needs
+    L/R > 0.75 s (30x below steel resistivity, ~260 kA vessel current). DIII-D labels: dI/dt adds nothing to the level (CV R2
+    0.7249 -> 0.7240). Closed.'
+  pr: 26
+- sweep: mast_flux_shift
+  label: MAST flux with a predicted Shafranov shift of the axis (Task B), compliant scalars
+  verdict: PROMOTE
+  baseline: compliant combination dc37dc0a flux + 22d99887 scalars (MAST S 0.613269, G 0.617018)
+  gate: one Development submission changing MAST psi only; replay predicted +0.0059 S
+  result: 'Official 688a773d: MAST S 0.619443 (+0.006174), G 0.623228, best compliant MAST. Consistency 0.024 -> 0.048, R2psi
+    0.9091 -> 0.9111, D_LCFS 0.2277 -> 0.2256. First MAST change where the labelled DIII-D replay predicted the official gain.
+    Fitted on DIII-D only; no MAST labels used.'
+  pr: 26
+- sweep: final_pick_v21_16
+  label: Final pick v21_16_grids3 (PCA shape hybrid cut from 27 networks to its tree host) submitted
+  verdict: KEEP
+  baseline: 07cfd3ff official DIII-D S 0.993927
+  gate: official Development score within ~1e-4 of 07cfd3ff (budget-fitting Final without loss)
+  result: 'Official 3facfca7: DIII-D S 0.993573 (-0.000354); screen had +0.000027. Loss is the axis (R_axis -0.0045, Z_axis -0.0057)
+    and D_LCFS. The shape hybrid carries the axis, so a Final blend must keep it and cut elsewhere. Re-diagnosed 15 Oct: 3facfca7 was a bf16 GPU build (emulated H GPU vs CPU -0.000351 vs official -0.000354);
+    the float32 screen still has v21_16_grids3 at +0.000027. Says nothing against the blend.'
+  pr: 26
+- sweep: mast_li_core_remap
+  label: MAST li via a core-flux remap toward a target li (LCFS kept), level from published MAST li(2)
+  verdict: DISCARD
+  baseline: 688a773d (MAST S 0.619443; li R2 -1.362, kappa R2 -0.265)
+  gate: labelled DIII-D replay dS > +0.002 without hurting R2psi or D_LCFS, then build only
+  result: 'MAST li sits ~+0.45 above published li(2) (median 1.37 vs 0.8-0.95) with twice the spread, driven by Thomson a
+    (corr -0.66); kappa is near-constant ~0.1 low (R2 -0.265 = -(0.1/0.2)^2). DIII-D replay (40 shots): li turns positive
+    only for a level within ~0..+0.1 of the true median; best +0.0022 S (li R2 +0.068) needs a label-placed level and lowers
+    R2psi; undershoot by 0.1-0.2 costs -0.0009 to -0.0020. MAST needs median c -0.28 (17% at the floor). No candidate built.'
+- sweep: fp32_build
+  label: Build every DIII-D candidate in float32 (TF32 off) on the GPU, gated on axis jitter
+  verdict: PROMOTE
+  baseline: 07cfd3ff official DIII-D S 0.993927 (CPU float32 build)
+  gate: one Development submission changing only the build precision of a4b4092c's blend; jitter R < 7.3 mm, Z < 9.0 mm
+  result: 'Official 54a70e7c: DIII-D S 0.994037 (+0.000110), new best; same blend in bf16 (a4b4092c) scored 0.993714. R_axis
+    0.98042, Z_axis 0.989152 back above 07cfd3ff. Jitter 6.74/8.28 mm vs bf16 9.08/10.88. The FNO grid member is a real gain
+    (float32 screen +0.000212, ~0.5 transfer).'
+  pr: 26
+- sweep: final_pick_v21_16_fno2
+  label: Final pick v21_16_grids3_fno2 (16 MLPs, grid_v3 + two FNO seeds at 0.75), float32 GPU build
+  verdict: PROMOTE
+  baseline: 54a70e7c official DIII-D S 0.994037
+  gate: one Development submission changing the DIII-D blend only; jitter R < 7.3 mm, Z < 9.0 mm
+  result: 'Official d5a34274: DIII-D S 0.994192 (+0.000155), new best and fits the 24 A100-h rebuild (16.0-18.8 h). Screen
+    +0.000307 (transfer ~0.5). Gains in kappa, volume, tri_bot, li, R_axis and D_LCFS; Z_axis -0.00017.'
+  pr: 26
+- sweep: psi_float32_storage
+  label: Submit DIII-D psi as float32 instead of float16 (build --psi-dtype float32)
+  verdict: PROMOTE
+  baseline: 54a70e7c official DIII-D S 0.994037 (same predictions stored as float16)
+  gate: one Development submission changing only the stored dtype; jitter R < 7.3 mm, Z < 9.0 mm
+  result: 'Official 4bef7fb6: DIII-D S 0.994423 (+0.000386), new best. All gain is consistency (0.97923 -> 0.98077; every
+    shape scalar up except volume/li flat) and D_LCFS (0.01080 -> 0.01001). float16 rounding was costing more than any model
+    change since 9 Oct. Axis jitter 6.74/8.28 -> 5.62/7.01 mm. Screen had +0.000187.'
+  pr: 26

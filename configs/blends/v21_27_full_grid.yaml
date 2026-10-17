@@ -1,0 +1,20 @@
+# 12068a0d (v21_27_st15_2x) with both tree models refitted on all training frames and the grid shape model (grid_v1)
+# taking 0.1 of the hybrid's 0.75: chosen on 160 never-scored held-out shots, positive in all five 40-shot groups
+# against 12068a0d (+87 / +83 / +191 / +63 / +73 x 1e-6 on the spare thirds, validation, scoring).
+base: [v5_loss_mix_i03,
+       v6_ensemble_region_i00, v6_ensemble_region_i01, v6_ensemble_region_i02, v6_ensemble_region_i03,
+       v8_ensemble_seeds_i00, v8_ensemble_seeds_i01, v8_ensemble_seeds_i02, v8_ensemble_seeds_i03,
+       v14_ramp_i00, v14_ramp_i01, v14_ramp_i02, v14_ramp_i03, v14_ramp_i04, v14_ramp_i05]
+trees: {host: v5_loss_mix_i03, model: xgb_top32_full.json, weight: 0.1}
+shape: [v16_normalize_i00, v16_normalize_i01, v16_normalize_i02,
+        v17_normalize_more_i00, v17_normalize_more_i01, v17_normalize_more_i02,
+        v18_normalize_six_i00, v18_normalize_six_i01, v18_normalize_six_i02,
+        v18_normalize_six_i03, v18_normalize_six_i04, v18_normalize_six_i05,
+        v19_normalize_variants_i00, v19_normalize_variants_i01, v19_normalize_variants_i02,
+        v19_normalize_variants_i03, v19_normalize_variants_i04, v19_normalize_variants_i05,
+        v20_normalize_ramp_i00, v20_normalize_ramp_i01, v20_normalize_ramp_i02,
+        v21_normalize_seeds_i00, v21_normalize_seeds_i01, v21_normalize_seeds_i02,
+        v21_normalize_seeds_i03, v21_normalize_seeds_i04, v21_normalize_seeds_i05]
+hybrid_weight: 0.75
+shape_trees: {host: v21_normalize_seeds_i00, model: xgb_shape_v21s40_top32_full.json, weight: 0.15}
+grid: {models: [grid_v1], weight: 0.1}

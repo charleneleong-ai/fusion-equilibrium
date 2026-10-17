@@ -1,0 +1,20 @@
+# 07cfd3ff (v21_27_grids3) re-weighted towards the grid models: base 0.10, PCA shape hybrid 0.05, shape trees 0.10,
+# three grids 0.75 (was 0.10 / 0.10 / 0.15 / 0.65); chosen on 160 never-scored held-out shots: against 07cfd3ff
+# +21 / +15 / +190 / +130 / +39 x 1e-6 (spare thirds, validation, scoring); 160 shots 0.994000 (+0.000086).
+base: [v5_loss_mix_i03,
+       v6_ensemble_region_i00, v6_ensemble_region_i01, v6_ensemble_region_i02, v6_ensemble_region_i03,
+       v8_ensemble_seeds_i00, v8_ensemble_seeds_i01, v8_ensemble_seeds_i02, v8_ensemble_seeds_i03,
+       v14_ramp_i00, v14_ramp_i01, v14_ramp_i02, v14_ramp_i03, v14_ramp_i04, v14_ramp_i05]
+trees: {host: v5_loss_mix_i03, model: xgb_top32_full.json, weight: 0.1}
+shape: [v16_normalize_i00, v16_normalize_i01, v16_normalize_i02,
+        v17_normalize_more_i00, v17_normalize_more_i01, v17_normalize_more_i02,
+        v18_normalize_six_i00, v18_normalize_six_i01, v18_normalize_six_i02,
+        v18_normalize_six_i03, v18_normalize_six_i04, v18_normalize_six_i05,
+        v19_normalize_variants_i00, v19_normalize_variants_i01, v19_normalize_variants_i02,
+        v19_normalize_variants_i03, v19_normalize_variants_i04, v19_normalize_variants_i05,
+        v20_normalize_ramp_i00, v20_normalize_ramp_i01, v20_normalize_ramp_i02,
+        v21_normalize_seeds_i00, v21_normalize_seeds_i01, v21_normalize_seeds_i02,
+        v21_normalize_seeds_i03, v21_normalize_seeds_i04, v21_normalize_seeds_i05]
+hybrid_weight: 0.8
+shape_trees: {host: v21_normalize_seeds_i00, model: xgb_shape_v21s40_top32_full.json, weight: 0.1}
+grid: {models: [grid_v2, grid_v2_s1, grid_v3], weight: 0.75}

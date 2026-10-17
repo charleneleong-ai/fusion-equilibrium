@@ -1,0 +1,72 @@
+{
+ "calibration": {
+  "scale": -0.8724,
+  "plasma_ratio": 0.9005,
+  "offset": -0.0201,
+  "ecoil_turns": 119.8
+ },
+ "shape": {
+  "kappa": 1.6,
+  "alpha": 1.0,
+  "thomson_frac": 0.25
+ },
+ "diii_d_check": [
+  {
+   "variant": "Vacuum only",
+   "S": 0.0,
+   "r2_psi": -0.9264,
+   "lcfs": 0.0,
+   "cons": 0.0
+  },
+  {
+   "variant": "Vacuum + plasma, uncalibrated",
+   "S": 0.1282,
+   "r2_psi": -0.0962,
+   "lcfs": 0.8634,
+   "cons": 0.2092
+  },
+  {
+   "variant": "Calibrated, no E-coil term (as applied to MAST)",
+   "S": 0.1325,
+   "r2_psi": 0.0138,
+   "lcfs": 0.8388,
+   "cons": 0.2051
+  },
+  {
+   "variant": "Calibrated with E-coil turns (DIII-D only)",
+   "S": 0.5013,
+   "r2_psi": 0.7693,
+   "lcfs": 0.7821,
+   "cons": 0.0
+  }
+ ],
+ "mast_lcfs": {
+  "frames": 400,
+  "closed": 400,
+  "r_geo_median": 0.834,
+  "kappa_median": 1.93,
+  "thomson_r0_median": 0.824,
+  "thomson_a_median": 0.564
+ },
+ "scalars": {
+  "c_q": 0.796,
+  "c_b": 1.442,
+  "q95_max": 11.56,
+  "diii_d_r2_q95": 0.898,
+  "diii_d_r2_betaN": 0.875,
+  "diii_d_r2_qb": 0.887,
+  "mast_q95_p10_50_90": [
+   3.5,
+   5.17,
+   11.56
+  ],
+  "mast_betaN_p10_50_90": [
+   0.92,
+   1.96,
+   3.56
+  ],
+  "official_mast_r2_q95": 0.149,
+  "official_mast_r2_betaN": 0.084,
+  "official_mast_r2_qb": 0.116
+ }
+}

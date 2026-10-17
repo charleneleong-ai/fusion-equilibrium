@@ -1,0 +1,15 @@
+# First MLP sweep: temporal context, width, PCA rank, vacuum term. Every iter is scored with the
+# official composite on the same 40 held-out DIII-D shots (shot-level split, seed 0).
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --epochs, 15, --batch, 2048]
+iters:
+  - description: "MLP, no context, vacuum residual (baseline)"
+    overrides: [--context, 0]
+  - description: "+ temporal context 2"
+    overrides: [--context, 2]
+  - description: "context 2, no vacuum term (ablation)"
+    overrides: [--context, 2, --no-use-vacuum]
+  - description: "context 2, PCA 192, wide"
+    overrides: [--context, 2, --n-components, 192, --hidden, 2048, --layers, 6]
+  - description: "context 4, PCA 192, wide, 25 epochs"
+    overrides: [--context, 4, --n-components, 192, --hidden, 2048, --layers, 6, --epochs, 25]

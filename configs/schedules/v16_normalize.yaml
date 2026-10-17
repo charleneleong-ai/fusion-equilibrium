@@ -1,0 +1,15 @@
+# v16: the remaining DIII-D gap is consistency, and part of it is frame-to-frame jitter in the boundary our flux
+# implies (docs/diii-d-diagnosis.md). The network has predicted PCA coefficients of the raw residual, mixing the flux
+# level and scale with its shape; the consistency scalars depend on shape only. --normalize predicts the PCA of the
+# flux shape (psi centred and scaled inside the scorer's envelope) plus that mean and log spread. Three seeds, each
+# paired with the plain MLP (v5_loss_mix_i03 0.99148, v6_ensemble_region_i00 / i01 0.99014 / 0.99019; mean 0.99223).
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize]
+iters:
+  - {description: "normalized target, seed 0 (pair: v5_loss_mix_i03)", overrides: [--seed, 0]}
+  - {description: "normalized target, seed 1 (pair: v6_ensemble_region_i00)", overrides: [--seed, 1]}
+  - {description: "normalized target, seed 2 (pair: v6_ensemble_region_i01)", overrides: [--seed, 2]}
+  - description: "3-seed normalized mean (pair: v6_ens3_seeds)"
+    command: ensemble
+    overrides: [--members, "v16_normalize_i00,v16_normalize_i01,v16_normalize_i02"]
+    timeout_min: 30

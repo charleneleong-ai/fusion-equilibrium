@@ -1,0 +1,9 @@
+# v17: three more normalized-target seeds. v16's three, blended into the submitted predictor as a 0.35 hybrid (v16's
+# shape with the base's envelope mean and spread), lifted validation S +0.00029 and scoring S +0.00049 - the first
+# change since v8 on which both held-out sets agree. More members of this family should add to that.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize]
+iters:
+  - {description: "normalized target, seed 3", overrides: [--seed, 3]}
+  - {description: "normalized target, seed 4", overrides: [--seed, 4]}
+  - {description: "normalized target, seed 5", overrides: [--seed, 5]}

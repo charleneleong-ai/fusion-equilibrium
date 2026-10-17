@@ -1,0 +1,16 @@
+# v12: the PCA ceiling is 0.9988 (truth through 192 components), so the gap to the 0.9963 leader is the model's
+# coefficient errors, mostly kappa / li; light smoothing along time already helps (+0.0002), and past-only history
+# features did not. TemporalNet runs dilated convolutions in both directions over the whole shot (+-30 frames) after
+# the v5 per-frame MLP. Three seeds, each paired with the same seed of the plain MLP (v5_loss_mix_i03 0.99148,
+# v6_ensemble_region_i00 / i01 0.99014 / 0.99019; their mean 0.99223). Falsified if the seed-matched members do not
+# rise on average and the 3-seed mean does not beat 0.99223.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --temporal-layers, 4]
+iters:
+  - {description: "temporal, seed 0 (pair: v5_loss_mix_i03)", overrides: [--seed, 0]}
+  - {description: "temporal, seed 1 (pair: v6_ensemble_region_i00)", overrides: [--seed, 1]}
+  - {description: "temporal, seed 2 (pair: v6_ensemble_region_i01)", overrides: [--seed, 2]}
+  - description: "3-seed temporal mean (pair: v6_ens3_seeds)"
+    command: ensemble
+    overrides: [--members, "v12_temporal_i00,v12_temporal_i01,v12_temporal_i02"]
+    timeout_min: 30

@@ -1,0 +1,15 @@
+# v2: fill the GPU. v1 showed ~4 GB of 80 GB used at batch 2048 and the wide model winning, so scale batch
+# (with lr scaled ~sqrt) and capacity, and try bf16 autocast. Same 40 held-out shots as v1.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --context, 2, --n-components, 192]
+iters:
+  - description: "wide 2048x6, batch 8192, lr 2e-3, 25 ep (v1 best at 4x batch)"
+    overrides: [--hidden, 2048, --layers, 6, --batch, 8192, --lr, 2e-3, --epochs, 25]
+  - description: "same, bf16 autocast"
+    overrides: [--hidden, 2048, --layers, 6, --batch, 8192, --lr, 2e-3, --epochs, 25, --amp]
+  - description: "batch 16384, lr 3e-3, 40 ep"
+    overrides: [--hidden, 2048, --layers, 6, --batch, 16384, --lr, 3e-3, --epochs, 40]
+  - description: "deeper 2048x10, batch 8192, 40 ep"
+    overrides: [--hidden, 2048, --layers, 10, --batch, 8192, --lr, 2e-3, --epochs, 40]
+  - description: "wider 4096x6, batch 8192, 40 ep, PCA 256"
+    overrides: [--hidden, 4096, --layers, 6, --batch, 8192, --lr, 2e-3, --epochs, 40, --n-components, 256]

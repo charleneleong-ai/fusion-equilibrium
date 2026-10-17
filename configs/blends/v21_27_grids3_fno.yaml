@@ -1,0 +1,21 @@
+# 07cfd3ff (v21_27_grids3) with the FNO grid member grid_fno (width 48, 16 modes, 4 layers; validation envelope loss
+# 0.0006; docs/specs/2026-10-11-fno-grid-member-design.md) added to the grid average, grids at 0.70 of the hybrid's 0.75
+# (weight chosen on the same 160 shots; at the unchanged 0.65 it is +0.000167, also 5/5 groups); against 07cfd3ff
+# +157 / +83 / +339 / +251 / +120 x 1e-6 (spare thirds, validation, scoring); 160 shots 0.994126 vs 0.993914.
+base: [v5_loss_mix_i03,
+       v6_ensemble_region_i00, v6_ensemble_region_i01, v6_ensemble_region_i02, v6_ensemble_region_i03,
+       v8_ensemble_seeds_i00, v8_ensemble_seeds_i01, v8_ensemble_seeds_i02, v8_ensemble_seeds_i03,
+       v14_ramp_i00, v14_ramp_i01, v14_ramp_i02, v14_ramp_i03, v14_ramp_i04, v14_ramp_i05]
+trees: {host: v5_loss_mix_i03, model: xgb_top32_full.json, weight: 0.1}
+shape: [v16_normalize_i00, v16_normalize_i01, v16_normalize_i02,
+        v17_normalize_more_i00, v17_normalize_more_i01, v17_normalize_more_i02,
+        v18_normalize_six_i00, v18_normalize_six_i01, v18_normalize_six_i02,
+        v18_normalize_six_i03, v18_normalize_six_i04, v18_normalize_six_i05,
+        v19_normalize_variants_i00, v19_normalize_variants_i01, v19_normalize_variants_i02,
+        v19_normalize_variants_i03, v19_normalize_variants_i04, v19_normalize_variants_i05,
+        v20_normalize_ramp_i00, v20_normalize_ramp_i01, v20_normalize_ramp_i02,
+        v21_normalize_seeds_i00, v21_normalize_seeds_i01, v21_normalize_seeds_i02,
+        v21_normalize_seeds_i03, v21_normalize_seeds_i04, v21_normalize_seeds_i05]
+hybrid_weight: 0.75
+shape_trees: {host: v21_normalize_seeds_i00, model: xgb_shape_v21s40_top32_full.json, weight: 0.15}
+grid: {models: [grid_v2, grid_v2_s1, grid_v3, grid_fno], weight: 0.70}

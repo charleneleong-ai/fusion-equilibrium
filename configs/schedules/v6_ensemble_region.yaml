@@ -1,0 +1,24 @@
+# v6: the official DIII-D S 0.9905 loses 0.0073 of its 0.0095 shortfall on Consistency (li 0.936, kappa 0.948); R2psi
+# is 0.9996. PCA 192 is not the limit (true psi reconstructed through it scores S 0.9988, consistency 0.996), so the
+# error is the network's. Two levers: average independent seeds (run-to-run noise ~0.0002 feeds the axis and shape
+# derivations), and add loss on psi inside the scorer's envelope, where the LCFS and every derived scalar are measured.
+# Base is v5_loss_mix_i03 (2048x10, 120 ep, mix loss, local S 0.9915).
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix]
+iters:
+  - description: "v5 best config, seed 1 (ensemble member)"
+    overrides: [--seed, 1]
+  - description: "v5 best config, seed 2 (ensemble member)"
+    overrides: [--seed, 2]
+  - description: "envelope region loss, weight 1"
+    overrides: [--region-weight, 1.0]
+  - description: "envelope region loss, weight 3"
+    overrides: [--region-weight, 3.0]
+  - description: "seed ensemble: v5_loss_mix_i03 + seeds 1, 2"
+    command: ensemble
+    overrides: [--members, "v5_loss_mix_i03,v6_ensemble_region_i00,v6_ensemble_region_i01"]
+    timeout_min: 30
+  - description: "5-model ensemble: seeds 0-2 + both region-loss runs"
+    command: ensemble
+    overrides: [--members, "v5_loss_mix_i03,v6_ensemble_region_i00,v6_ensemble_region_i01,v6_ensemble_region_i02,v6_ensemble_region_i03"]
+    timeout_min: 30

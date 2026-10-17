@@ -1,0 +1,23 @@
+# v7: consistency is 76% of the remaining DIII-D loss, li (0.940 official) the weakest scalar. li tracks the current
+# profile, which follows the Te profile shape, yet the inputs squeeze 44 core + 10 edge Thomson chords onto 12 + 8
+# stations and take the single nearest sample per 20 ms frame (core Thomson samples every ~3 ms). --thomson-hr uses one
+# station per chord and averages the samples within +-10 ms (cache thomson_hr.npy, `fusioneq.cli prepare-thomson`).
+# Temporal smoothing of predictions was tested first and hurt at every window (0.9922 -> 0.9895-0.9916), so the gain
+# has to come from inputs, not post-processing. Seeds so the comparison survives the ~0.0013 single-model noise.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --thomson-hr]
+iters:
+  - description: "v5 best config + full-resolution Thomson, seed 0"
+    overrides: [--seed, 0]
+  - description: "v5 best config + full-resolution Thomson, seed 1"
+    overrides: [--seed, 1]
+  - description: "v5 best config + full-resolution Thomson, seed 2"
+    overrides: [--seed, 2]
+  - description: "3-seed ensemble, full-resolution Thomson (compare v6_ens3_seeds 0.9922)"
+    command: ensemble
+    overrides: [--members, "v7_thomson_hr_i00,v7_thomson_hr_i01,v7_thomson_hr_i02"]
+    timeout_min: 30
+  - description: "6-model ensemble: v5/v6 seeds + v7 full-resolution seeds"
+    command: ensemble
+    overrides: [--members, "v5_loss_mix_i03,v6_ensemble_region_i00,v6_ensemble_region_i01,v7_thomson_hr_i00,v7_thomson_hr_i01,v7_thomson_hr_i02"]
+    timeout_min: 40

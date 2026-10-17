@@ -1,0 +1,9 @@
+# v20: shape-target members with ramp weighting. The shape target is the strongest family (+0.00056 officially across
+# three hybrids); ramp weighting made the residual MLP's members different enough to add as ensemble members. Three
+# seeds of both together, tested as extra members of the twelve-member hybrid on the validation shots.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize, --ramp-weight, 2.0]
+iters:
+  - {description: "shape target + ramp weight 2, seed 30", overrides: [--seed, 30]}
+  - {description: "shape target + ramp weight 2, seed 31", overrides: [--seed, 31]}
+  - {description: "shape target + ramp weight 2, seed 32", overrides: [--seed, 32]}

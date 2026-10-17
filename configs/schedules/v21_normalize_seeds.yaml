@@ -1,0 +1,12 @@
+# v21: six more shape-target seeds. Going from 12 to 21 members (v19 variants + v20 ramp) lifted official DIII-D
+# 0.992904 -> 0.993078 and the validation gain had not flattened (12 -> 18 -> 21: 0.992422 -> 0.992556 -> 0.992590),
+# so 27 members test whether the family still pays. Same recipe as v18.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --normalize]
+iters:
+  - {description: "shape target, seed 40", overrides: [--seed, 40]}
+  - {description: "shape target, seed 41", overrides: [--seed, 41]}
+  - {description: "shape target, seed 42", overrides: [--seed, 42]}
+  - {description: "shape target, seed 43", overrides: [--seed, 43]}
+  - {description: "shape target, seed 44", overrides: [--seed, 44]}
+  - {description: "shape target, seed 45", overrides: [--seed, 45]}

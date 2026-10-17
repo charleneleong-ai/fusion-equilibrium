@@ -1,0 +1,14 @@
+# Final-phase rebuild pick (docs/final-budget.md, 14 Oct): the slim v21_16 base (16 MLPs, the one shape MLP only as
+# shape-tree host) with grids grid_v3 + two FNO seeds (grid_fno, grid_fno_s1) at 0.75. 16 MLPs + 2 forests + 3 grids,
+# 16.0-18.8 idle A100-h. 160 never-scored shots 0.994433 (07cfd3ff 0.993914, a4b4092c 0.994126); per 40-shot group
+# vs 07cfd3ff +382 / +116 / +937 / +576 / +112 x 1e-6 (spare thirds, validation, scoring). Grid set and weight chosen
+# post hoc on those 160 shots; whether the FNO belongs at all rests on a4b4092c's official score.
+base: [v5_loss_mix_i03,
+       v6_ensemble_region_i00, v6_ensemble_region_i01, v6_ensemble_region_i02, v6_ensemble_region_i03,
+       v8_ensemble_seeds_i00, v8_ensemble_seeds_i01, v8_ensemble_seeds_i02, v8_ensemble_seeds_i03,
+       v14_ramp_i00, v14_ramp_i01, v14_ramp_i02, v14_ramp_i03, v14_ramp_i04, v14_ramp_i05]
+trees: {host: v5_loss_mix_i03, model: xgb_top32_full.json, weight: 0.1}
+shape: [v21_normalize_seeds_i00]
+hybrid_weight: 0.75
+shape_trees: {host: v21_normalize_seeds_i00, model: xgb_shape_v21s40_top32_full.json, weight: 0.15}
+grid: {models: [grid_v3, grid_fno, grid_fno_s1], weight: 0.75}

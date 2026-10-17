@@ -1,0 +1,123 @@
+# Blend candidates screened on the never-scored held-out shots (gate G2, from 8 Oct); the dashboard renders this.
+# groups: paired S deltas x 1e-6 against `baseline`, per 40-shot group - spare thirds 1-3 and validation (the 160
+# never-scored shots), then the 40 local scoring shots. Copied from each config's header (configs/blends/*.yaml) or
+# docs/diii-d-diagnosis.md; s160 / baseline_160 are pooled S on the 160 shots (null where never recorded).
+# commit: the Codabench pointer's short sha when the candidate was submitted.
+group_names: [spare 1, spare 2, spare 3, validation, scoring]
+# compliant_mast: submissions whose MAST q95/betaN are mask-free (rule 3); the rest use the scorer's MAST envelope.
+# label_free_from: the first submission whose MAST predictions use no MAST labels; earlier G ratios are not comparable.
+label_free_from: 62f9e89f
+compliant_mast: [22d99887, 1b4990da, 10276142, 688a773d]
+leaders: {S: 0.9964, consistency: 0.988, dlcfs: 0.007, r2_qb: 0.998, source: docs/journey.md}
+screens:
+  - name: v21_27 (27 shape members)
+    config: configs/blends/v21_27.yaml
+    baseline: 7a56d52a
+    baseline_160: 0.991687
+    s160: 0.991698
+    groups: null
+    commit: 6525ba1d
+    note: submitted before the 160-shot screen existed; screened afterwards, which called its null
+  - name: v21_27_st15 (shape trees 0.15)
+    config: configs/blends/v21_27_st15.yaml
+    baseline: 7a56d52a
+    baseline_160: 0.991687
+    s160: 0.992054
+    groups: [-30, 60, 1210, 70, 40]
+    note: gain carried by shot 6844 in spare 3; superseded by the 2x-data trees
+  - name: gated shape-tree weight
+    config: null
+    baseline: 7a56d52a
+    baseline_160: 0.991687
+    s160: 0.992042
+    groups: [-80, 80, 1300, -50, 40]
+    note: the label-free gate finds shot 6844's frames; ordinary shots gain nothing
+  - name: v21_27_st15_2x (trees on 2x data)
+    config: configs/blends/v21_27_st15_2x.yaml
+    baseline: 7a56d52a
+    baseline_160: 0.991687
+    s160: 0.992113
+    groups: [4, 168, 1272, 106, 47]
+    commit: 12068a0d
+  - name: v21_27_full_grid (grid_v1 at 0.1)
+    config: configs/blends/v21_27_full_grid.yaml
+    baseline: 12068a0d
+    baseline_160: 0.992113
+    s160: null
+    groups: [87, 83, 191, 63, 73]
+    commit: 93605aab
+  - name: v21_27_full_grid_v2 (grid_v2 at 0.5)
+    config: configs/blends/v21_27_full_grid_v2.yaml
+    baseline: 93605aab
+    baseline_160: null
+    s160: 0.993167
+    groups: [441, 502, 2166, 445, 301]
+    commit: d3076dea
+  - name: v21_27_grids2 (two grid seeds)
+    config: configs/blends/v21_27_grids2.yaml
+    baseline: d3076dea
+    baseline_160: 0.993167
+    s160: 0.993643
+    groups: [288, 340, 1101, 207, 54]
+    commit: 9c2c5fab
+  - name: v21_27_grids3 (three grids, H)
+    config: configs/blends/v21_27_grids3.yaml
+    baseline: 9c2c5fab
+    baseline_160: 0.993643
+    s160: 0.993914
+    groups: [171, 150, 557, 200, 102]
+    commit: 07cfd3ff
+  - name: grid_v2_gs as an extra grid
+    config: null
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.993827
+    groups: null
+  - name: grid_v2_gs replacing a grid
+    config: null
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.993863
+    groups: null
+  - name: grid_v2_gs alone
+    config: null
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.992890
+    groups: null
+  - name: v21_27_grids3_w75 (grids at 0.75)
+    config: configs/blends/v21_27_grids3_w75.yaml
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.994000
+    groups: [21, 15, 190, 130, 39]
+    commit: f10440d6
+  - name: v21_27_grids3_fno (FNO grid member at 0.70)
+    config: configs/blends/v21_27_grids3_fno.yaml
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.994126
+    groups: [157, 83, 339, 251, 120]
+    commit: a4b4092c
+    note: officially 0.993714 (-0.000213), the opposite sign to the screen
+  - name: v21_27_grids3_fno2 (second FNO seed, grids 0.75)
+    config: configs/blends/v21_27_grids3_fno2.yaml
+    baseline: a4b4092c
+    baseline_160: 0.994126
+    s160: 0.994316
+    groups: [127, 127, 330, 186, -32]
+    note: built, never pushed - a4b4092c lost officially
+  - name: v21_16_grids3 (slim Final rebuild of 07cfd3ff)
+    config: configs/blends/v21_16_grids3.yaml
+    baseline: 07cfd3ff
+    baseline_160: 0.993914
+    s160: 0.993941
+    groups: [-20, 12, 82, 34, 60]
+    note: Final pick (13.4-17.8 idle A100-h); chosen for rebuild budget, not score
+running: []
+not_established:
+  - The 160-shot screen does not rank grid changes on the official shots - w75 (+0.000086) and the FNO (+0.000212) both passed it and both lost officially; v21_16_grids3 (+0.000027) is officially unscored.
+  - Shot-level discordant counts are not recorded; the per-group view is five paired 40-shot deltas, so a sign test can reach p = 0.031 at best.
+  - The MAST R2psi gap is unexplained - a published-constant vessel circuit cannot track the solenoid-correlated flux level (corr -0.04 to -0.13, needed -0.99).
+  - Compliant MAST q95/betaN stays at R2 0.208 (22d99887); every mask-free replacement (geometry region, predicted geometry) scored worse.
+  - The Final-phase reproduction (rule 3, label-free MAST, rebuilt from the pointer) is untested end to end.

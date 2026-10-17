@@ -1,0 +1,17 @@
+# v5: v4 showed the pixel (variance-weighted) loss nearly perfects psi (R2psi 0.9995-0.9997) but costs the shape
+# scalars, Z_axis worst (0.76-0.88), so the std loss stays ahead (v3 best 0.9875 vs v4 best 0.9865). Two v4 iters were
+# killed by the GPU triage's undersized-memory rule (a false positive for this small model; now disabled).
+# Test a 50/50 blend, rerun the killed std-loss 120-epoch run, and replicate v3's best to measure run-to-run noise.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192]
+iters:
+  - description: "replicate of v3 best (2048x6, 60 ep, std loss): noise floor"
+    overrides: [--hidden, 2048, --layers, 6, --epochs, 60]
+  - description: "2048x6, 60 ep, mix loss"
+    overrides: [--hidden, 2048, --layers, 6, --epochs, 60, --coef-loss, mix]
+  - description: "2048x10, 120 ep, std loss (killed in v4)"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 120]
+  - description: "2048x10, 120 ep, mix loss"
+    overrides: [--hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix]
+  - description: "2048x6, 120 ep, std loss"
+    overrides: [--hidden, 2048, --layers, 6, --epochs, 120]

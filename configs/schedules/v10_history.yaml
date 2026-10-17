@@ -1,0 +1,18 @@
+# v10: consistency is ~80% of the gap to the 0.9963 leader, and li / kappa, its weakest terms, depend on the current
+# profile, which diffuses over ~1 s; the model sees only +-4 frames (+-80 ms). Frames.history adds time in the shot,
+# |Ip| averaged over the last 0.2 / 0.5 / 1 s, its 0.1 s ramp and the past core Te. Three seeds of the v5 best config
+# with --history, against the same seeds without it (v5_loss_mix_i03 0.99148, v6_ensemble_region_i00 / i01 0.99014 /
+# 0.99019; their 3-seed ensemble 0.99223). Falsified if li and kappa do not rise on the seed-matched pairs.
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix, --history]
+iters:
+  - description: "history features, seed 0 (pair: v5_loss_mix_i03)"
+    overrides: [--seed, 0]
+  - description: "history features, seed 1 (pair: v6_ensemble_region_i00)"
+    overrides: [--seed, 1]
+  - description: "history features, seed 2 (pair: v6_ensemble_region_i01)"
+    overrides: [--seed, 2]
+  - description: "3-seed history ensemble (pair: v6_ens3_seeds 0.99223)"
+    command: ensemble
+    overrides: [--members, "v10_history_i00,v10_history_i01,v10_history_i02"]
+    timeout_min: 30

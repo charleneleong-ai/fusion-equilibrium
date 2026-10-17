@@ -1,0 +1,13 @@
+# v13: every change since v8 has been noise or worse, but capacity was last swept with the old loss (v3 plateaued at
+# 2048x10, 60 epochs) and our consistency (0.9705) is the weakest of the teams at similar S (0.975-0.979). Wider
+# (4096) and longer (240 epochs) members of the v8 config, two seeds each, against the same seeds of the 2048x10 /
+# 120-epoch config (v5_loss_mix_i03 0.99148, v6_ensemble_region_i00 0.99014; mean 0.99081). Worth a submission only
+# if the seed-matched mean gains more than ~0.0005 (smaller local gains have proved to be noise).
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --layers, 10, --coef-loss, mix]
+iters:
+  - {description: "4096 wide, 120 epochs, seed 0 (pair: v5_loss_mix_i03)", overrides: [--hidden, 4096, --epochs, 120, --seed, 0]}
+  - {description: "4096 wide, 120 epochs, seed 1 (pair: v6_ensemble_region_i00)", overrides: [--hidden, 4096, --epochs, 120, --seed, 1]}
+  - {description: "240 epochs, seed 0 (pair: v5_loss_mix_i03)", overrides: [--hidden, 2048, --epochs, 240, --seed, 0]}
+  - {description: "240 epochs, seed 1 (pair: v6_ensemble_region_i00)", overrides: [--hidden, 2048, --epochs, 240, --seed, 1]}
+  - {description: "4096 wide, 240 epochs, seed 0 (pair: v5_loss_mix_i03)", overrides: [--hidden, 4096, --epochs, 240, --seed, 0]}

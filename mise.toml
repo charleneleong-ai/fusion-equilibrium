@@ -1,0 +1,33 @@
+[tools]
+python = "3.13"
+
+[env]
+A100 = "pi-a100-80gb"
+REMOTE = "~/fusion/repo"
+
+[tasks.install]
+description = "Create the local venv and install pre-commit"
+run = "uv sync --group dev && uv run pre-commit install"
+
+[tasks.test]
+run = "uv run pytest -q"
+
+[tasks.lint]
+run = "uv run pre-commit run --all-files"
+
+[tasks.sync]
+description = "Push the code to the A100"
+# experiments/fusioneq/ (results rows) and results/ are written on the A100: never overwrite them from here
+run = "rsync -az --exclude __pycache__ --exclude .venv --exclude .pytest_cache --exclude .ruff_cache --exclude .env --exclude experiments/fusioneq --exclude results --exclude submissions ./ $A100:$REMOTE/"
+
+[tasks.remote]
+description = "Run a fusioneq CLI command on the A100 (usage: mise run remote -- prepare --config diii_d_train)"
+run = "ssh $A100 'cd $REMOTE && ~/fusion/starter/.venv/bin/python -m fusioneq.cli {{arg(name=\"args\")}}'"
+
+[tasks.fetch]
+description = "Pull results and the pointer zip back from the A100"
+run = "rsync -az $A100:~/fusion/results/ results/ && rsync -az $A100:~/fusion/submission_pointer.zip submissions/ 2>/dev/null || true"
+
+[tasks.reports]
+description = "Fetch results and refresh the W&B report, LaTeX report and dashboard (then republish the artifact)"
+run = "bash scripts/refresh_reports.sh"

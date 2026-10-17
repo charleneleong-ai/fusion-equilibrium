@@ -1,0 +1,20 @@
+# Chosen on 160 never-scored held-out shots (120 spare + 40 validation) instead of 40: 27 members, hybrid 0.75, shape
+# trees on the v21 seed-40 host at 0.15. 160 shots: 0.992054 vs 0.991687 for 7a56d52a (which scored 0.993078
+# officially; the 160-shot set also called v21_27's null: 0.991698). The gain sits mostly in the hardest 40-shot
+# group (+0.0012); the other groups move -0.00003 to +0.00007.
+base: [v5_loss_mix_i03,
+       v6_ensemble_region_i00, v6_ensemble_region_i01, v6_ensemble_region_i02, v6_ensemble_region_i03,
+       v8_ensemble_seeds_i00, v8_ensemble_seeds_i01, v8_ensemble_seeds_i02, v8_ensemble_seeds_i03,
+       v14_ramp_i00, v14_ramp_i01, v14_ramp_i02, v14_ramp_i03, v14_ramp_i04, v14_ramp_i05]
+trees: {host: v5_loss_mix_i03, model: xgb_top32.json, weight: 0.1}
+shape: [v16_normalize_i00, v16_normalize_i01, v16_normalize_i02,
+        v17_normalize_more_i00, v17_normalize_more_i01, v17_normalize_more_i02,
+        v18_normalize_six_i00, v18_normalize_six_i01, v18_normalize_six_i02,
+        v18_normalize_six_i03, v18_normalize_six_i04, v18_normalize_six_i05,
+        v19_normalize_variants_i00, v19_normalize_variants_i01, v19_normalize_variants_i02,
+        v19_normalize_variants_i03, v19_normalize_variants_i04, v19_normalize_variants_i05,
+        v20_normalize_ramp_i00, v20_normalize_ramp_i01, v20_normalize_ramp_i02,
+        v21_normalize_seeds_i00, v21_normalize_seeds_i01, v21_normalize_seeds_i02,
+        v21_normalize_seeds_i03, v21_normalize_seeds_i04, v21_normalize_seeds_i05]
+hybrid_weight: 0.75
+shape_trees: {host: v21_normalize_seeds_i00, model: xgb_shape_v21s40_top32.json, weight: 0.15}

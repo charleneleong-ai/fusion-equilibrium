@@ -1,0 +1,13 @@
+# v15: v14's ramp-weighted members are weaker alone (-0.0007 to -0.0008 on matched seeds) but add diversity: six of
+# them lift v8's validation S by +0.00044 against +0.00007 for six plain members, and stack partly with the tree blend
+# (+0.00014 over v8 + trees on validation). Six more ramp-weighted members on new seeds, to see whether the ensemble
+# keeps gaining as they are added (judged on the never-scored validation shots, then the scoring shots).
+command: train
+common_overrides: [--holdout, 200, --score-shots, 40, --amp, --context, 4, --batch, 2048, --lr, 1e-3, --n-components, 192, --hidden, 2048, --layers, 10, --epochs, 120, --coef-loss, mix]
+iters:
+  - {description: "ramp weight 2, seed 3", overrides: [--ramp-weight, 2.0, --seed, 3]}
+  - {description: "ramp weight 2, seed 4", overrides: [--ramp-weight, 2.0, --seed, 4]}
+  - {description: "ramp weight 2, seed 5", overrides: [--ramp-weight, 2.0, --seed, 5]}
+  - {description: "ramp weight 4, seed 3", overrides: [--ramp-weight, 4.0, --seed, 3]}
+  - {description: "ramp weight 4, seed 4", overrides: [--ramp-weight, 4.0, --seed, 4]}
+  - {description: "ramp weight 4, seed 5", overrides: [--ramp-weight, 4.0, --seed, 5]}
