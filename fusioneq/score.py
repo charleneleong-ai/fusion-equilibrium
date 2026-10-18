@@ -16,6 +16,7 @@ if str(VENDOR) not in sys.path:
 
 from common import AXIS_SIGN, CONS_SCALARS, N_CONS, N_SCALARS, PSI_SIGNS, SCALARS  # noqa: E402
 from contour import symmetric_hausdorff  # noqa: E402
+from derive import _shape_from_contour as shape_from_contour  # noqa: E402, F401 (re-exported for fusioneq.finish)
 from derive import derive_frame, internal_inductance  # noqa: E402, F401 (internal_inductance: re-exported)
 from lcfs import extract_lcfs, extract_lcfs_with_sign, major_radius  # noqa: E402
 from metrics import Accum, finalize_machine  # noqa: E402

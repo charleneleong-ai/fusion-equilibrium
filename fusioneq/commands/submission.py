@@ -16,6 +16,7 @@ from loguru import logger
 from fusioneq.blend import Blend, BlendSpec, CoefTrees
 from fusioneq.cache import Frames
 from fusioneq.evaluation import HeldOut
+from fusioneq.finish import finish_frames
 from fusioneq.loading import load_model
 from fusioneq.model import Ensemble, NeuralPredictor, Predictor, Smoothed
 from fusioneq.physics import MastCache
@@ -137,14 +138,19 @@ class Submission:
     mast_scal: str = "scal_phys.npy"
     smooth_sigma: float = 0.0
     psi_dtype: str = "float16"
+    finish: Path | None = None  # DIII-D finishing recipe (configs/finish/), applied to the flux as predicted
+    workers: int = 14
 
     def prediction(self, config: str, fr: Frames) -> tuple[Prediction, str]:
         if config.startswith("mast"):
             cache = MastCache(self.cache_root, config=config)
             return cache.prediction(self.mast_psi, self.mast_scal), f"{self.mast_psi}, {self.mast_scal}"
         model = Smoothed(load_model(self.model), self.smooth_sigma)
-        psi_scal = self.predict_by_shots(model, fr, self.psi_dtype)
-        return psi_scal, f"model {self.model.name}, sigma {self.smooth_sigma}, psi {self.psi_dtype}"
+        psi, scal = self.predict_by_shots(model, fr, self.psi_dtype)
+        if self.finish is not None:
+            psi = finish_frames(fr, psi, self.finish, self.workers).astype(self.psi_dtype)
+        how = f"model {self.model.name}, sigma {self.smooth_sigma}, psi {self.psi_dtype}, finish {self.finish}"
+        return (psi, scal), how
 
     @staticmethod
     def predict_by_shots(
@@ -197,13 +203,17 @@ def build(
     mast_scal: str = "scal_phys.npy",
     smooth_sigma: float = 0.0,
     psi_dtype: str = "float16",
+    finish: Path | None = None,
+    workers: int = 14,
 ) -> None:
     """Per-config .npz: the model on DIII-D, smoothed over time within each shot by `smooth_sigma` frames; MAST gets
     `mast_psi` and `mast_scal` from its cache (the physics flux by default, or an agnostic network's psi_<tag>.npy,
     and a `mast-scalars` output). `psi_dtype` float32 keeps the DIII-D flux at full precision (float16 is ~2.5 GB
-    smaller but rounds the magnetic axis)."""
+    smaller but rounds the magnetic axis). `finish` runs the DIII-D finishing recipe on the flux (CPU, `workers`
+    processes; docs/finishing.md)."""
     model = model or RESULTS / "pca_ridge.joblib"
-    Submission(model, cache_root, out_dir, mast_psi, mast_scal, smooth_sigma, psi_dtype).build(configs.split(","))
+    sub = Submission(model, cache_root, out_dir, mast_psi, mast_scal, smooth_sigma, psi_dtype, finish, workers)
+    sub.build(configs.split(","))
 
 
 COMMANDS = [ensemble, ensemble_search, fit_trees, compact_trees, blend, build]

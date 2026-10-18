@@ -22,8 +22,9 @@ import numpy as np
 from loguru import logger
 
 from fusioneq.cache import Frames, shot_bounds
+from fusioneq.consistency import scorer_scalars
 from fusioneq.data import coil_columns, list_shots, read_row
-from fusioneq.evaluation import score_frames
+from fusioneq.evaluation import HeldOut, score_frames
 from fusioneq.greens import cached_grid_greens, coil_basis
 from fusioneq.mast_shape import (
     DERIVED,
@@ -148,6 +149,21 @@ def group_cv(X: np.ndarray, Y: np.ndarray, groups: np.ndarray, lam: float, folds
     for f in range(folds):
         pred[fold == f] = ShapeMap.fit(X[fold != f], Y[fold != f], lam).predict(X[fold == f])
     return float(np.mean([r2(Y[:, j], pred[:, j]) for j in range(Y.shape[1])]))
+
+
+def shape_targets(cache_root: Path = CACHE_ROOT, holdout: int = 200, score_shots: int = 40, workers: int = 16) -> None:
+    """cons_targets.npz, which shape-fit and shift-fit learn from: the scorer's seven consistency scalars of the DIII-D
+    label flux on every 4th training frame and on the held-out scoring frames. DIII-D labels only."""
+    ev = HeldOut.load(cache_root, holdout, score_shots)
+    rows = {"train": np.nonzero(ev.train)[0][::4], "test": ev.rows}
+    with ProcessPoolExecutor(workers) as ex:
+        y = {
+            k: np.stack(list(ex.map(scorer_scalars, (ev.fr.psi[r] for r in idx), chunksize=256)))
+            for k, idx in rows.items()
+        }
+    out = cache_root / "diii_d_train" / "cons_targets.npz"
+    np.savez(out, **y, train_rows=rows["train"], test_rows=rows["test"])
+    logger.info(f"{out}: {len(y['train'])} train / {len(y['test'])} test frames, NaN {np.isnan(y['train']).mean():.4f}")
 
 
 def shape_fit(
@@ -517,4 +533,13 @@ def mast_geom_scalars(
     build.cache.shape_scalars(shape, eps_max, out, workers, "volume", pred[:, 0])
 
 
-COMMANDS = [shape_fit, shape_check, mast_shape, derive_check, geom_scal_check, mast_geom_scalars, shift_fit]
+COMMANDS = [
+    shape_targets,
+    shape_fit,
+    shape_check,
+    mast_shape,
+    derive_check,
+    geom_scal_check,
+    mast_geom_scalars,
+    shift_fit,
+]

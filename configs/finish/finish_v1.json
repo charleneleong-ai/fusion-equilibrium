@@ -1,0 +1,11 @@
+{
+ "heads": {"hidden": 1024, "layers": 6, "dropout": 0.1, "lr": 0.0003, "weight_decay": 0.0001, "epochs": 40,
+           "clip": 1.0, "batch": 2048, "context": 4, "thomson_hr": true, "history": true},
+ "stride": 1,
+ "seeds": [0, 1, 2, 3],
+ "weights": {"R_axis": 0.4, "Z_axis": 0.0, "kappa": 0.45, "tri_top": 0.7, "tri_bot": 0.7, "volume": 0.5, "li": 0.35},
+ "ops": ["axis", "shape", "li"],
+ "passes": 2,
+ "jump": 2.0,
+ "scales": [1.0]
+}

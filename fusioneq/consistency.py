@@ -16,6 +16,7 @@ import torch
 from fusioneq.cache import Frames
 from fusioneq.model import NeuralPredictor, context_rows
 from fusioneq.score import Scorer, derive_frame
+from fusioneq.shape_map import CONS_INDEX
 from fusioneq.targets import transform_all
 from fusioneq.tracking import Run
 
@@ -30,6 +31,13 @@ def targets(psi: np.ndarray) -> np.ndarray:
     """(len(TARGETS),) the scorer's volume and li of one (65, 65) frame, NaN where its derivation fails."""
     v = derive_frame(np.asarray(psi, np.float64), SCORER.R, SCORER.Z, "DIII-D", SCORER.mask_coarse, SCORER.mask_f)
     return np.array([v[k] for k in TARGETS])
+
+
+def scorer_scalars(psi: np.ndarray) -> np.ndarray:
+    """(7,) the scorer's consistency scalars of one (65, 65) DIII-D frame in CONS_INDEX order, NaN where its derivation
+    fails."""
+    v = derive_frame(np.asarray(psi, np.float64), SCORER.R, SCORER.Z, "DIII-D", SCORER.mask_coarse, SCORER.mask_f)
+    return np.array([np.nan if v is None else v.get(k, np.nan) for k in CONS_INDEX])
 
 
 def set_steps(steps: np.ndarray) -> None:
