@@ -374,3 +374,37 @@
   result: 'Official 0be92e18: DIII-D S 0.994565 (+0.000373), new best; float32 storage stacks with the blend (+0.000386 on
     54a70e7c). Consistency 0.98134, D_LCFS 0.00972. Jitter 5.82/7.51 mm.'
   pr: 26
+- sweep: mast_clean_defaults
+  label: Rule-compliant MAST - drop the demo-shot-swept flux settings (alpha 2.0 / frac 0.4 -> pre-sweep 1.0 / 0.25)
+  verdict: PROMOTE
+  baseline: 688a773d's MAST (S 0.619443), whose alpha / frac came from a sweep scored on the 3 labelled demo shots
+  gate: one Development submission changing the MAST file only (DIII-D byte-identical to 0be92e18)
+  result: 'Official 4927db09: MAST S 0.640574 (+0.021), G 0.644075, best MAST under any rules. Consistency 0.048 -> 0.127
+    (R_axis 0.03 -> 0.33, volume 0.17 -> 0.33, li -1.36 -> -0.28). The demo-picked values overfitted three shots;
+    compliance and score point the same way. Final MAST path.'
+  pr: 26
+- sweep: grid_fno_seed3
+  label: Third FNO seed (grid_fno_s2) in the Final blend, B15/B7 bases, with and without grid_v3, weight 0.70/0.75
+  verdict: DISCARD
+  baseline: Final pick B15/S1/v3+fno+fno1@0.75 (0be92e18's blend) on the 160 never-scored shots
+  gate: fixed before results - > +1e-4 on the 160 shots, >= 4 of 5 groups, upper hours <= 21
+  result: 'No blend passes. Best B15/S1/v3+fno+fno1+fno2@0.75: +99e-6, 5/5 groups, but 19.0-22.1 h. B7/S1/v3+3 FNOs@0.75:
+    +79e-6, 5/5 groups, 16.8-19.3 h (no saving over the pick). Dropping grid_v3 costs spare2 (-100 to -152e-6). At the
+    ~0.5 screen-to-official transfer the best case is ~+0.00004, inside noise. Rows in final_budget_subsets160_fno3.json.'
+  pr: 26
+- sweep: d3d_time_smoothing_fp32
+  label: Time smoothing (sigma 0.5 frames) on the float32 Final blend, retest of the 8 Oct closure
+  verdict: DISCARD
+  baseline: 4927db09 official DIII-D S 0.994565
+  gate: one Development submission changing the DIII-D file only
+  result: 'Official d1434ea4: 0.994450 (-0.000115); every term down. Axis jitter fell 5.8/7.5 -> 4.1/5.3 mm but part of that
+    motion is real plasma movement, so jitter is a precision diagnostic, not a target. Closed again.'
+  pr: 26
+- sweep: mast_alpha_05
+  label: Clean MAST pipeline at current-peaking alpha 0.5 (vs 1.0)
+  verdict: DISCARD
+  baseline: 4927db09 official MAST S 0.640574 (alpha 1.0)
+  gate: one Development submission changing the MAST file only
+  result: 'Official d1434ea4: MAST 0.628783 (-0.0118); q95 R2 0.166 -> 0.057, consistency 0.127 -> 0.110. alpha 1.0 sits
+    between the 0.5 and 2.0 probes; chosen on our own public-fold scores (disclosed).'
+  pr: 26

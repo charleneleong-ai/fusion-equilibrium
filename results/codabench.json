@@ -1242,5 +1242,64 @@
    "dlcfs": 0.225602,
    "consistency": 0.048324
   }
+ },
+ {
+  "submitted": "2026-10-17 (pointer_20261017T0900Z_4927db09.zip)",
+  "model": "DIII-D as 0be92e18; MAST: 688a773d's pipeline with the demo-sweep settings removed (mast-physics alpha 1.0 / frac 0.25, mast-shape --alpha 1.0 --shift-axis, mast-scalars eps 0.65 volume betaN), rule-compliant for the Final",
+  "commit": "4927db091c6dd1dd15f3f631bcf8b02c64806f38",
+  "notes": "MAST S 0.619443 -> 0.640574 (+0.021), G 0.644075: best MAST under any rules (beats non-compliant dc37dc0a 0.6339). Consistency 0.048 -> 0.127 (R_axis 0.03 -> 0.33, volume 0.17 -> 0.33, li -1.36 -> -0.28, tri_bot 0.11 -> 0.21), R2psi 0.9111 -> 0.9171, D_LCFS 0.2256 -> 0.2217, R2_qb 0.208 -> 0.219. The alpha 2.0 / frac 0.4 picked on the 3 demo shots had overfitted them. DIII-D identical. PROMOTE.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261017T0900Z_4927db09.zip",
+  "scores": {
+   "d3d_S": 0.994565,
+   "d3d_r2_psi": 0.999778,
+   "d3d_r2_qb": 0.995946,
+   "d3d_dlcfs": 0.009719,
+   "d3d_consistency": 0.981335,
+   "mast_S": 0.640574,
+   "g_ratio": 0.644075
+  },
+  "mast": {
+   "r2_psi": 0.917147,
+   "flux_sign": -1,
+   "r2_qb": 0.219053,
+   "dlcfs": 0.221666,
+   "consistency": 0.127259
+  },
+  "consistency_per_scalar": {
+   "R_axis": 0.327988,
+   "Z_axis": 0.018174,
+   "kappa": -0.243083,
+   "tri_top": -0.033997,
+   "tri_bot": 0.214927,
+   "volume": 0.329723,
+   "li": -0.283246
+  }
+ },
+ {
+  "submitted": "2026-10-18 (pointer_20261017T1215Z_d1434ea4.zip)",
+  "model": "One change per machine vs 4927db09: DIII-D Final blend smoothed in time (sigma 0.5 frames, float32 psi); MAST clean pipeline at alpha 0.5 instead of 1.0",
+  "commit": "d1434ea4e9e33059bebe81dd8ff5097b2b6c6525",
+  "notes": "Both worse. DIII-D 0.994565 -> 0.994450 (-0.000115; consistency 0.98134 -> 0.98089, R2psi and D_LCFS also down): the frame-to-frame axis motion smoothing removed is partly real. MAST 0.640574 -> 0.628783 (-0.0118; q95 R2 0.166 -> 0.057, consistency 0.127 -> 0.110): alpha 1.0 stays. DISCARD both.",
+  "rank": null,
+  "entries": null,
+  "pointer": "pointer_20261017T1215Z_d1434ea4.zip",
+  "scores": {
+   "d3d_S": 0.99445,
+   "d3d_r2_psi": 0.999772,
+   "d3d_r2_qb": 0.995856,
+   "d3d_dlcfs": 0.009797,
+   "d3d_consistency": 0.980885,
+   "mast_S": 0.628783,
+   "g_ratio": 0.632292
+  },
+  "mast": {
+   "r2_psi": 0.917219,
+   "flux_sign": -1,
+   "r2_qb": 0.165564,
+   "dlcfs": 0.225769,
+   "consistency": 0.110272
+  }
  }
 ]

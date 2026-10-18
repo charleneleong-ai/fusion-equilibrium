@@ -25,19 +25,23 @@ C_GRID = tuple(np.linspace(-0.45, 1.5, 40).tolist())
 
 @dataclass(frozen=True)
 class CoreShaper:
-    """Per-frame li(c) curves and the remap; axis_sign puts the axis at a maximum of axis_sign * psi."""
+    """Per-frame li(c) curves and the remap; axis_sign puts the axis at a maximum of axis_sign * psi. mask_coarse
+    extracts the LCFS inside that envelope (the scorer's, on DIII-D only: rule 3 keeps MAST unmasked)."""
 
     R: np.ndarray
     Z: np.ndarray
     machine: str
     axis_sign: float
     c_grid: tuple[float, ...] = C_GRID
+    mask_coarse: np.ndarray | None = None
 
     def bump(self, psi: np.ndarray) -> tuple[np.ndarray, np.ndarray | None]:
         """(bump, contour): the remap direction (phi_axis - phi_b) * x^2 inside the LCFS (zero elsewhere, and
         everywhere when no LCFS closes), in psi's own sign, and the LCFS polygon or None."""
         p = np.asarray(psi, np.float64)
-        c, _ = extract_lcfs_with_sign(p, self.R, self.Z, self.machine, axis_sign=self.axis_sign)
+        m = self.mask_coarse
+        mask_f = None if m is None else m.astype(np.float64)
+        c, _ = extract_lcfs_with_sign(p, self.R, self.Z, self.machine, m, mask_f, axis_sign=self.axis_sign)
         if c is None:
             return np.zeros_like(p), None
         phi = self.axis_sign * p

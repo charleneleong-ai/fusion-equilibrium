@@ -95,6 +95,11 @@ class TestAlignment:
         assert np.allclose(out, [[3.0, 6.0], [9.0, 9.0]])
         assert np.array_equal(profile_on_efit(times, prof, np.array([4.0]), 0.0), prof[[1]])
 
+    def test_samples_out_of_time_order_are_dropped_before_matching(self):
+        times = np.array([0.0, 10.0, 10.0, 5.0, 20.0])  # a repeated pad time, then one sample out of order
+        prof = np.array([[1.0], [2.0], [99.0], [99.0], [3.0]])
+        assert profile_on_efit(times, prof, np.array([6.0, 11.0, 19.0]), window=4.0).ravel().tolist() == [2.0, 2.0, 3.0]
+
     def test_context_features_respect_shot_boundaries(self):
         out = context_features(np.arange(6, dtype=np.float32)[:, None], np.array([0, 0, 0, 1, 1, 1]), 1)
         assert out[0].tolist() == [0.0, 0.0, 1.0]  # previous frame edge-padded within shot 0

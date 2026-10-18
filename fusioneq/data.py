@@ -73,7 +73,11 @@ def currents_on_efit(row: dict, efit_t: np.ndarray) -> tuple[np.ndarray, np.ndar
 
 def profile_on_efit(times: np.ndarray, prof: np.ndarray, efit_t: np.ndarray, window: float = 0.0) -> np.ndarray:
     """Thomson profile per EFIT frame, prof: (Tt, C), NaN channels left as NaN. window = 0 takes the nearest sample;
-    window > 0 averages each channel's finite samples within +-window/2, falling back to the nearest where none."""
+    window > 0 averages each channel's finite samples within +-window/2, falling back to the nearest where none.
+    Samples whose time is not strictly after every earlier one are dropped first (the organisers' validity contract,
+    starter issue #12: the Final inputs pad one array with a repeated time and put one sample out of order)."""
+    valid = np.r_[True, times[1:] > np.maximum.accumulate(times)[:-1]] if len(times) else np.ones(0, bool)
+    times, prof = times[valid], prof[valid]
     idx = np.clip(np.searchsorted(times, efit_t), 0, len(times) - 1)
     left = np.clip(idx - 1, 0, len(times) - 1)
     pick = np.where(np.abs(times[left] - efit_t) < np.abs(times[idx] - efit_t), left, idx)

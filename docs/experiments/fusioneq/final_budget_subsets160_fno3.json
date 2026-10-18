@@ -1,0 +1,118 @@
+{
+ "B15/S1/v3+fno+fno1@0.75": {
+  "hours": [
+   16.0,
+   18.8
+  ],
+  "choose160": 0.994433,
+  "spare0": 0.99492,
+  "spare1": 0.994248,
+  "spare2": 0.993396,
+  "validation": 0.99427,
+  "scoring": 0.994453
+ },
+ "B15/S1/v3+fno+fno1+fno2@0.70": {
+  "hours": [
+   19.0,
+   22.1
+  ],
+  "choose160": 0.99451,
+  "spare0": 0.994951,
+  "spare1": 0.994398,
+  "spare2": 0.993416,
+  "validation": 0.994395,
+  "scoring": 0.994608,
+  "gate": false
+ },
+ "B15/S1/v3+fno+fno1+fno2@0.75": {
+  "hours": [
+   19.0,
+   22.1
+  ],
+  "choose160": 0.994532,
+  "spare0": 0.994975,
+  "spare1": 0.994404,
+  "spare2": 0.993466,
+  "validation": 0.994414,
+  "scoring": 0.994536,
+  "gate": false
+ },
+ "B15/S1/fno+fno1+fno2@0.70": {
+  "hours": [
+   15.4,
+   18.1
+  ],
+  "choose160": 0.99447,
+  "spare0": 0.994936,
+  "spare1": 0.994361,
+  "spare2": 0.993244,
+  "validation": 0.994459,
+  "scoring": 0.994547,
+  "gate": false
+ },
+ "B15/S1/fno+fno1+fno2@0.75": {
+  "hours": [
+   15.4,
+   18.1
+  ],
+  "choose160": 0.994475,
+  "spare0": 0.99495,
+  "spare1": 0.994345,
+  "spare2": 0.993269,
+  "validation": 0.994462,
+  "scoring": 0.994469,
+  "gate": false
+ },
+ "B7/S1/v3+fno+fno1+fno2@0.70": {
+  "hours": [
+   16.8,
+   19.3
+  ],
+  "choose160": 0.994494,
+  "spare0": 0.994929,
+  "spare1": 0.994322,
+  "spare2": 0.993433,
+  "validation": 0.994399,
+  "scoring": 0.994605,
+  "gate": false
+ },
+ "B7/S1/v3+fno+fno1+fno2@0.75": {
+  "hours": [
+   16.8,
+   19.3
+  ],
+  "choose160": 0.994512,
+  "spare0": 0.994929,
+  "spare1": 0.994335,
+  "spare2": 0.993476,
+  "validation": 0.994425,
+  "scoring": 0.99452,
+  "gate": false
+ },
+ "B7/S1/fno+fno1+fno2@0.70": {
+  "hours": [
+   13.2,
+   15.3
+  ],
+  "choose160": 0.994459,
+  "spare0": 0.994905,
+  "spare1": 0.994298,
+  "spare2": 0.993264,
+  "validation": 0.994472,
+  "scoring": 0.994509,
+  "gate": false
+ },
+ "B7/S1/fno+fno1+fno2@0.75": {
+  "hours": [
+   13.2,
+   15.3
+  ],
+  "choose160": 0.994465,
+  "spare0": 0.994927,
+  "spare1": 0.994278,
+  "spare2": 0.993296,
+  "validation": 0.994473,
+  "scoring": 0.994452,
+  "gate": false
+ }
+}
